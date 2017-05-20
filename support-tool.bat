@@ -9,6 +9,8 @@ set sourceDirPath=C:\DreadnoughtSupport\
 set contentDirPath=%sourceDirPath%\support-info
 set targetZipFileName=DN_Support.zip
 set destinationDirPath=%userprofile%\Desktop
+set /a cnt=0
+set "keep=10"
 
 echo:
 echo   ----------------------------------------------------------------
@@ -16,8 +18,8 @@ echo    DREADNOUGHT COMMUNITY SUPPORT TOOL
 echo   ----------------------------------------------------------------
 echo:
 echo     This tool will create a zip file of your msinfo, dxdiag and 
-echo     log files for bug reporting and submissions when contacting
-echo     Customer Support.
+echo     the last %keep% log files for bug reports or other issues
+echo     when contacting Customer Support.
 echo:
 echo     Let the tool run until you see a file on your desktop called
 echo     %targetZipFileName%
@@ -53,11 +55,11 @@ echo     Please don't interrupt or quit the tool while waiting.
 
 set supportReadmeFile=%contentDirPath%\SUPPORT-README.txt
 
-:: Readme file included for the Support Employee that this was automatically generated
+:: readme file included for the support employee that this was automatically generated
 echo Files gathered and archived by the Dreadnought Community Support Tool (%version%) >> %supportReadmeFile%
 echo:                                                                                  >> %supportReadmeFile%
 echo Automatically collected information:                                              >> %supportReadmeFile%
-echo  - Dreadnought log files                                                          >> %supportReadmeFile%
+echo  - Dreadnought log files (last %keep% log files)                                  >> %supportReadmeFile%
 echo  - DxDiag                                                                         >> %supportReadmeFile%
 echo  - MSInfo                                                                         >> %supportReadmeFile%
 echo:                                                                                  >> %supportReadmeFile%
@@ -65,7 +67,13 @@ echo The Dreadnought Community Support Tool can be found at:                    
 echo  - https://github.com/dreadnought-friends/support-tool                            >> %supportReadmeFile%
 echo:                                                                                  >> %supportReadmeFile%
 
-forfiles /P "%userprofile%\AppData\Local\DreadGame\Saved\Logs" /M *.log /C "cmd /c xcopy @PATH %contentDirPath%\logs 2>&1 > nul"
+:: only select the last X log files
+for /f "eol=: delims=" %%F in ('dir %userprofile%\AppData\Local\DreadGame\Saved\Logs\*.log /b /s /o-d /a-d') do (
+  if defined keep (
+    2>nul set /a "cnt+=1, 1/(keep-cnt)" || set "keep="
+    xcopy "%%F" %contentDirPath%\logs 2>&1 > nul
+  )
+)
 
 dxdiag /t %contentDirPath%\dxdiag.txt
 Msinfo32 /report %contentDirPath%\msinfo.txt
@@ -73,7 +81,7 @@ Msinfo32 /report %contentDirPath%\msinfo.txt
 set tempFilePath=%temp%\FilesToZip.txt
 type nul > %tempFilePath%
 
-:: Creating a zip file, not sure what this magic does...
+:: creating a zip file, not sure what this magic does...
 for /f "delims=*" %%i in ('dir /b /s /a-d  "%sourceDirPath%"') do (
   set filePath=%%i
   set dirPath=%%~dpi
