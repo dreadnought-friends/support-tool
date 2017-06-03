@@ -2,6 +2,7 @@
 {
     class Config
     {
+        public string Version { get; private set; }
         public string LogFileLocation { get; private set; }
         public string ZipFileLocation { get; private set; }
         public string ZipFileName { get; private set; }
@@ -16,8 +17,9 @@
             get { return IncludeDreadnoughtLogs || IncludeDxDiag || IncludeMsInfo; }
         }
 
-        public Config(string logFileLocation, string zipFileLocation, string zipFileName)
+        public Config(string version, string logFileLocation, string zipFileLocation, string zipFileName)
         {
+            this.Version = version;
             this.LogFileLocation = logFileLocation;
             this.ZipFileLocation = zipFileLocation;
             this.ZipFileName = zipFileName;

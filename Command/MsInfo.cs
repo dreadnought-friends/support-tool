@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 
 namespace SupportTool.Command
 {
@@ -14,14 +15,14 @@ namespace SupportTool.Command
 
             logger.Log("Generating msinfo32 dump");
 
-            string reportFile = fileAggregator.AddVirtualFile("msinfo32.txt");
+            FileInfo reportFile = fileAggregator.AddVirtualFile("msinfo32.txt");
 
             Process process = new Process();
             process.EnableRaisingEvents = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = "msinfo32.exe";
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.Arguments = "/report " + reportFile;
+            process.StartInfo.Arguments = "/report " + reportFile.FullName;
             process.Start();
             process.WaitForExit();
             process.Close();

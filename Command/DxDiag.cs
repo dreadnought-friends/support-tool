@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 
 namespace SupportTool.Command
 {
@@ -14,14 +15,14 @@ namespace SupportTool.Command
 
             logger.Log("Generating DxDiag dump");
 
-            string reportFile = fileAggregator.AddVirtualFile("dxdiag.txt");
+            FileInfo reportFile = fileAggregator.AddVirtualFile("dxdiag.txt");
 
             Process process = new Process();
             process.EnableRaisingEvents = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = "dxdiag.exe";
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.Arguments = "/t" + reportFile;
+            process.StartInfo.Arguments = "/t" + reportFile.FullName;
             process.Start();
             process.WaitForExit();
             process.Close();

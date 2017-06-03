@@ -41,6 +41,7 @@ namespace SupportTool
             string home = Environment.GetEnvironmentVariable("userprofile");
 
             config = new Config(
+                Version,
                 Path.Combine(home, @"AppData\Local\DreadGame\Saved\Logs"),
                 Path.Combine(home, "Desktop"),
                 "DN_Support.zip"
@@ -51,6 +52,7 @@ namespace SupportTool
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
             commands.Add(new CleanUp());
+            commands.Add(new CustomerSupportReadme());
             commands.Add(new DxDiag());
             commands.Add(new MsInfo());
             commands.Add(new DreadnoughtLogs());

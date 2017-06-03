@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupportTool"
         mc:Ignorable="d"
-        Title="Dreadnought Community Support Tool" Height="520" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="assets/icon.png">
+        Title="Dreadnought Community Support Tool" Height="520" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="Assets/Icon.png">
     <Grid Margin="0,0,-6,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

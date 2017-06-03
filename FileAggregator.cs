@@ -25,14 +25,14 @@ namespace SupportTool
         /// as it will throw an exception otherwise on archiving.
         /// </summary>
         /// <param name="destinationFileName">Filename relative from the destination directory</param>
-        /// <returns>The destination file name</returns>
-        public string AddVirtualFile(string destinationFileName)
+        /// <returns>The destination file info</returns>
+        public FileInfo AddVirtualFile(string destinationFileName)
         {
-            string tempFileName = Path.Combine(TempDir, destinationFileName);
+            FileInfo tempFile = new FileInfo(Path.Combine(TempDir, destinationFileName));
 
-            AggregatedFiles.Add(new AggregatedFile(new FileInfo(tempFileName)));
+            AggregatedFiles.Add(new AggregatedFile(tempFile));
 
-            return tempFileName;
+            return tempFile;
         }
 
         /// <summary>
@@ -43,14 +43,14 @@ namespace SupportTool
         /// </summary>
         /// <param name="sourceFileName">The file to be aggregated</param>
         /// <param name="destinationFileName">The relative filename it should get</param>
-        /// <returns>The destination file name</returns>
-        public string AddExistingFile(string sourceFileName, string destinationFileName)
+        /// <returns>The destination file info</returns>
+        public FileInfo AddExistingFile(string sourceFileName, string destinationFileName)
         {
-            destinationFileName = Path.Combine(TempDir, destinationFileName);
+            FileInfo destinationFile = new FileInfo(Path.Combine(TempDir, destinationFileName));
 
-            AggregatedFiles.Add(new AggregatedFile(new FileInfo(sourceFileName), new FileInfo(destinationFileName)));
+            AggregatedFiles.Add(new AggregatedFile(new FileInfo(sourceFileName), destinationFile));
 
-            return destinationFileName;
+            return destinationFile;
         }
     }
 }
