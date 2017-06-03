@@ -1,0 +1,65 @@
+﻿<Window x:Class="SupportTool.SupportToolWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupportTool"
+        mc:Ignorable="d"
+        Title="Dreadnought Community Support Tool" Height="520" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="assets/icon.png">
+    <Grid Margin="0,0,-6,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="ExecutionOutput" Margin="10,10,10,10" TextWrapping="Wrap" VerticalAlignment="Top" Height="240" BorderBrush="LightGray" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+
+        <StatusBar Name="ControlsStatusBar" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="342" Padding="10,5,10,5" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <StatusBarItem>
+                <Button x:Name="StartAggregation" Content="Collect Information" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Click="StartAggregation_Click" Height="20"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Button x:Name="OpenAggregatedFiles" Content="Show Collected Files" HorizontalAlignment="left" VerticalAlignment="Top" Click="OpenAggregatedFiles_Click" Width="125" Height="20"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <StatusBar Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="342" Padding="10,5,10,5" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+            <StatusBarItem HorizontalAlignment="Left">
+                <Run Name="VersionNumber" FontStyle="Italic"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <StackPanel Orientation="Vertical" Name="ConfigurationOptions" Grid.Row="1" Grid.Column="1" Margin="10,10,10,10">
+            <Label x:Name="LabelSettings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,0,0,0">
+                <Run FontWeight="Bold" Text="Settings"/>
+            </Label>
+            <CheckBox x:Name="SettingDxDiag" Margin="3,3,0,0" Content="Include DxDiag" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDxDiag, Mode=TwoWay}"/>
+            <CheckBox x:Name="SettingMsInfo" Margin="3,3,0,0" Content="Include MsInfo32" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeMsInfo, Mode=TwoWay}" />
+            <CheckBox x:Name="SettingLogFiles" Margin="3,3,0,0" Content="Include Dreadnought log files" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtLogs, Mode=TwoWay}" />
+            <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
+        </StackPanel>
+        <Grid Grid.Column="0" Margin="10,10,10,17" Grid.Row="1">
+
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="0,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="322"><Run Text="This community made tool gathers information which the Dreadnought Customer Support might ask of you to assist with issues or bug reports."/><LineBreak/><Run/></TextBlock>
+            <Label x:Name="LabelAbout" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Run FontWeight="Bold" Text="About"/>
+            </Label>
+            <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="0,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="- "/><Hyperlink NavigateUri="https://discord.gg/dreadnought" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="https://discord.gg/dreadnought"/></Hyperlink><Run Text=" (Anyone#8869)"/><LineBreak/><Run Text="- "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="https://github.com/dreadnought-friends/support-tool"/></Hyperlink></TextBlock>
+            <Label x:Name="LabelContact" HorizontalAlignment="Left" Margin="0,91,0,0" VerticalAlignment="Top">
+                <Run FontWeight="Bold" Text="Contact"/>
+            </Label>
+        </Grid>
+        <Label x:Name="LabelAuthor" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Top" Content=""/>
+
+        <Border BorderBrush="LightGray" BorderThickness="1,0,0,0" HorizontalAlignment="Left" Height="177" Margin="0,0,0,10" Grid.Row="1" VerticalAlignment="Top" Width="1" Grid.Column="1" />
+
+
+
+
+    </Grid>
+</Window>

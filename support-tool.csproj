@@ -7,7 +7,7 @@
     <ProjectGuid>{329EF2D7-9CE0-4027-84B0-11F386BFAE70}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>support_tool</RootNamespace>
+    <RootNamespace>SupportTool</RootNamespace>
     <AssemblyName>support-tool</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,7 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="SupportToolWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -63,8 +65,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Command\Archiver.cs" />
+    <Compile Include="Command\CleanUp.cs" />
+    <Compile Include="Command\DreadnoughtLogs.cs" />
+    <Compile Include="Command\DxDiag.cs" />
+    <Compile Include="Command\AggregatedFileCollector.cs" />
+    <Compile Include="Logger\BackgroundReportLogger.cs" />
+    <Compile Include="Logger\InMemoryLogger.cs" />
+    <Compile Include="CommandInterface.cs" />
+    <Compile Include="Command\MsInfo.cs" />
+    <Compile Include="Runner.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="AggregatedFile.cs" />
+    <Compile Include="FileAggregator.cs" />
+    <Compile Include="LoggerInterface.cs" />
+    <Compile Include="SupportToolWindow.xaml.cs">
+      <DependentUpon>SupportToolWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -94,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
