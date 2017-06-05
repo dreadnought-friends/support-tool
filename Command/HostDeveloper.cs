@@ -35,6 +35,13 @@ namespace SupportTool.Command
             FileInfo hostDeveloperFile = new FileInfo(Path.Combine(config.DnInstallationDirectory, DeveloperFile));
             FileSystemWatcher watcher = new FileSystemWatcher(config.DnInstallationDirectory, DeveloperFile);
 
+            // some players run it with /debug by default, thus might have useful information in the old file
+            if (hostDeveloperFile.Exists)
+            {
+                hostDeveloperFile.CopyTo(String.Format("{0}.old", Path.Combine(fileAggregator.TempDir, hostDeveloperFile.Name)));
+                fileAggregator.AddVirtualFile(String.Format("{0}.old", hostDeveloperFile.Name));
+            }
+
             logger.Log(string.Format("Creating {0}, this might take a while", hostDeveloperFile.FullName));
             logger.Log("A windows user control popup will appear to run DreadnoughtLauncher.exe as administrator");
             
