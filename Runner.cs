@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
 namespace SupportTool
 {
@@ -18,9 +17,17 @@ namespace SupportTool
 
         public void Run(List<CommandInterface> commands)
         {
+            Propagation propagation = new Propagation();
+
             foreach (CommandInterface command in commands)
             {
-                command.Execute(config, fileAggregator, logger);
+                if (propagation.ShouldStop)
+                {
+                    logger.Log("Aborted");
+                    return;
+                }
+
+                command.Execute(config, fileAggregator, logger, propagation);
             }
         }
     }

@@ -2,6 +2,6 @@
 {
     interface CommandInterface
     {
-        void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger);
+        void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation);
     }
 }

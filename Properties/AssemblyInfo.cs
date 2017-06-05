@@ -1,18 +1,16 @@
 ﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("support-tool")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Dreadnought Community Support Tool")]
+[assembly: AssemblyDescription("This community made tool gathers information which the Dreadnought Customer Support might ask of you to assist with issues or bug reports.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("support-tool")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright Iltar © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

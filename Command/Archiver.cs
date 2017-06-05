@@ -5,7 +5,7 @@ namespace SupportTool.Command
 {
     class Archiver : CommandInterface
     {
-        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger)
+        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.CreateZipArchive)
             {
@@ -15,7 +15,7 @@ namespace SupportTool.Command
 
             if (!config.CanCreateArchive)
             {
-                logger.Log("Skipping archiving, nothing to archive");
+                logger.Log("Skipping archiving, nothing selected to archive");
                 return;
             }
 
@@ -25,11 +25,21 @@ namespace SupportTool.Command
 
             if (file.Exists)
             {
-                logger.Log("Deleting old zip file " + zipFile);
+                logger.Log(string.Format("Deleting old zip file {0}", zipFile));
                 file.Delete();
             }
 
-            logger.Log("Creating " + zipFile);
+            // the readme file is always created
+            string[] files = Directory.GetFileSystemEntries(fileAggregator.TempDir);
+            string readme = Path.Combine(fileAggregator.TempDir, "Readme.txt");
+
+            if (1 == files.Length && files[0].Equals(readme))
+            {
+                logger.Log("Skipping archiving, no files collected to archive");
+                return;
+            }
+
+            logger.Log(string.Format("Creating {0}", zipFile));
             ZipFile.CreateFromDirectory(fileAggregator.TempDir, Path.Combine(config.ZipFileLocation, config.ZipFileName));
 
             logger.Log("Done! On your desktop you will have a file called 'DN_Support.zip' which you can attach to your support ticket or reply.");

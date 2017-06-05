@@ -6,7 +6,7 @@ namespace SupportTool.Command
 {
     class DreadnoughtLogs : CommandInterface
     {
-        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger)
+        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeDreadnoughtLogs)
             {

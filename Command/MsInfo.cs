@@ -5,7 +5,7 @@ namespace SupportTool.Command
 {
     class MsInfo : CommandInterface
     {
-        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger)
+        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeMsInfo)
             {
@@ -22,7 +22,7 @@ namespace SupportTool.Command
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = "msinfo32.exe";
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.Arguments = "/report " + reportFile.FullName;
+            process.StartInfo.Arguments = string.Format("/report {0}", reportFile.FullName);
             process.Start();
             process.WaitForExit();
             process.Close();

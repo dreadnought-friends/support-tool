@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -29,7 +30,10 @@ namespace SupportTool
         {
             InitializeComponent();
 
-            VersionNumber.Text = "Version: " + Version;
+            Version versionInfo = Assembly.GetExecutingAssembly().GetName().Version;
+            string version = String.Format("{0}.{1}.{2}", versionInfo.Major, versionInfo.Minor, versionInfo.Build);
+
+            Title = String.Format("{0} - {1}", Title, version);
 
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.WorkerReportsProgress = true;
@@ -52,6 +56,7 @@ namespace SupportTool
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
             commands.Add(new CleanUp());
+            commands.Add(new HostDeveloper());
             commands.Add(new CustomerSupportReadme());
             commands.Add(new DxDiag());
             commands.Add(new MsInfo());
@@ -69,10 +74,6 @@ namespace SupportTool
             try
             {
                 runner.Run(commands);
-            }
-            catch (FileNotFoundException exception)
-            {
-                LogCriticalError("Expected file " + exception.FileName + " to exist, but was not found.");
             }
             catch (Exception exception)
             {
@@ -95,6 +96,7 @@ namespace SupportTool
             SettingMsInfo.IsEnabled = true;
             SettingLogFiles.IsEnabled = true;
             SettingArchive.IsEnabled = true;
+            SettingHostDeveloper.IsEnabled = true;
             StartAggregation.IsEnabled = true;
             OpenAggregatedFiles.IsEnabled = true;
         }
@@ -111,6 +113,7 @@ namespace SupportTool
             SettingMsInfo.IsEnabled = false;
             SettingLogFiles.IsEnabled = false;
             SettingArchive.IsEnabled = false;
+            SettingHostDeveloper.IsEnabled = false;
             StartAggregation.IsEnabled = false;
             OpenAggregatedFiles.IsEnabled = false;
 
@@ -128,6 +131,11 @@ namespace SupportTool
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+        }
+
+        private void OpenDreadnoughtInstallationDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(config.DnInstallationDirectory);
         }
     }
 }

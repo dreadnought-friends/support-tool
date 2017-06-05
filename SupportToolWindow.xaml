@@ -30,7 +30,7 @@
 
         <StatusBar Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="342" Padding="10,5,10,5" BorderThickness="0,1,0,0" BorderBrush="LightGray">
             <StatusBarItem HorizontalAlignment="Left">
-                <Run Name="VersionNumber" FontStyle="Italic"/>
+                <Button x:Name="OpenDreadnoughtInstallationDirectory" Content="Open Dreadnought Folder" HorizontalAlignment="left" VerticalAlignment="Top" Width="160" Height="20" Click="OpenDreadnoughtInstallationDirectory_Click"/>
             </StatusBarItem>
         </StatusBar>
 
@@ -41,6 +41,7 @@
             <CheckBox x:Name="SettingDxDiag" Margin="3,3,0,0" Content="Include DxDiag" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDxDiag, Mode=TwoWay}"/>
             <CheckBox x:Name="SettingMsInfo" Margin="3,3,0,0" Content="Include MsInfo32" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeMsInfo, Mode=TwoWay}" />
             <CheckBox x:Name="SettingLogFiles" Margin="3,3,0,0" Content="Include Dreadnought log files" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtLogs, Mode=TwoWay}" />
+            <CheckBox x:Name="SettingHostDeveloper" Margin="3,3,0,0" Content="Include host developer debug file" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeHostDeveloper, Mode=TwoWay}" />
             <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
         </StackPanel>
         <Grid Grid.Column="0" Margin="10,10,10,17" Grid.Row="1">

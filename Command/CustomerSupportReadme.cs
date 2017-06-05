@@ -5,7 +5,7 @@ namespace SupportTool.Command
 {
     class CustomerSupportReadme : CommandInterface
     {
-        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger)
+        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             FileInfo readmeFile = fileAggregator.AddVirtualFile("Readme.txt");
 

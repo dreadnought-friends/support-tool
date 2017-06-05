@@ -4,7 +4,7 @@ namespace SupportTool.Command
 {
     class AggregatedFileCollector : CommandInterface
     {
-        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger)
+        public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             logger.Log("Preparing files to be archived");
 
@@ -18,7 +18,9 @@ namespace SupportTool.Command
 
                 if (!File.Exists(file.To.FullName))
                 {
-                    throw new FileNotFoundException("Expected file not found", file.To.FullName);
+                    logger.Log(string.Format("Expected file not found: {0}", file.To.FullName));
+                    propagation.ShouldStop = true;
+                    return;
                 }
 
                 logger.Log(file.To.FullName);

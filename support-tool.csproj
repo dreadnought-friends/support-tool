@@ -71,10 +71,12 @@
     <Compile Include="Command\DreadnoughtLogs.cs" />
     <Compile Include="Command\DxDiag.cs" />
     <Compile Include="Command\AggregatedFileCollector.cs" />
+    <Compile Include="Command\HostDeveloper.cs" />
     <Compile Include="Logger\BackgroundReportLogger.cs" />
     <Compile Include="Logger\InMemoryLogger.cs" />
     <Compile Include="CommandInterface.cs" />
     <Compile Include="Command\MsInfo.cs" />
+    <Compile Include="Propagation.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="AggregatedFile.cs" />
