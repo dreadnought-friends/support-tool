@@ -3,12 +3,14 @@ using System.IO;
 
 namespace SupportTool.Command
 {
-    class CleanUp : CommandInterface
+    class TempDirectoryPreparation : CommandInterface
     {
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!Directory.Exists(fileAggregator.TempDir))
             {
+                logger.Log(string.Format("Created {0}", fileAggregator.TempDir));
+                Directory.CreateDirectory(fileAggregator.TempDir);
                 return;
             }
 

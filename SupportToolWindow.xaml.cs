@@ -55,7 +55,7 @@ namespace SupportTool
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
-            commands.Add(new CleanUp());
+            commands.Add(new TempDirectoryPreparation());
             commands.Add(new HostDeveloper());
             commands.Add(new CustomerSupportReadme());
             commands.Add(new DxDiag());
@@ -125,6 +125,12 @@ namespace SupportTool
 
         private void OpenAggregatedFiles_Click(object sender, RoutedEventArgs e)
         {
+            if (!Directory.Exists(fileAggregator.TempDir))
+            {
+                backgroundReportLogger.Log("No aggregated files found to show");
+                return;
+            }
+
             Process.Start(fileAggregator.TempDir);
         }
 
@@ -135,6 +141,12 @@ namespace SupportTool
 
         private void OpenDreadnoughtInstallationDirectory_Click(object sender, RoutedEventArgs e)
         {
+            if (null == config.DnInstallationDirectory || !Directory.Exists(fileAggregator.TempDir))
+            {
+                backgroundReportLogger.Log("Could not reliably find the Dreadnought installation directory");
+                return;
+            }
+
             Process.Start(config.DnInstallationDirectory);
         }
     }

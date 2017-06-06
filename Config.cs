@@ -26,7 +26,6 @@ namespace SupportTool
                 }
 
                 return dir;
-
             }
         }
         public string LogFileLocation { get; private set; }
