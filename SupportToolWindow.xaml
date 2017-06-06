@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupportTool"
         mc:Ignorable="d"
-        Title="Dreadnought Community Support Tool" Height="520" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="Assets/Icon.png">
+        Title="Dreadnought Community Support Tool" Height="574" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="Assets/Icon.png">
     <Grid Margin="0,0,-6,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -44,20 +44,20 @@
             <CheckBox x:Name="SettingHostDeveloper" Margin="3,3,0,0" Content="Include host developer debug file" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeHostDeveloper, Mode=TwoWay}" />
             <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
         </StackPanel>
-        <Grid Grid.Column="0" Margin="10,10,10,17" Grid.Row="1">
-
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="0,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="322"><Run Text="This community made tool gathers information which the Dreadnought Customer Support might ask of you to assist with issues or bug reports."/><LineBreak/><Run/></TextBlock>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" Height="225" Margin="10,10,0,0" VerticalAlignment="Top" Width="323">
             <Label x:Name="LabelAbout" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Run FontWeight="Bold" Text="About"/>
             </Label>
-            <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="0,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="- "/><Hyperlink NavigateUri="https://discord.gg/dreadnought" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="https://discord.gg/dreadnought"/></Hyperlink><Run Text=" (Anyone#8869)"/><LineBreak/><Run Text="- "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="https://github.com/dreadnought-friends/support-tool"/></Hyperlink></TextBlock>
-            <Label x:Name="LabelContact" HorizontalAlignment="Left" Margin="0,91,0,0" VerticalAlignment="Top">
+            <TextBlock x:Name="TextBlockAbout" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="322" Text="This community made tool gathers information which the Dreadnought Customer Support might ask of you to assist with issues or bug reports."/>
+            <Label x:Name="LabelContact" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top">
                 <Run FontWeight="Bold" Text="Contact"/>
             </Label>
-        </Grid>
+
+            <TextBlock x:Name="TextBlockContact" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="72" Width="313"><Run Text="For questions, suggestions or bug reports, you can find me (Anyone#8869) on the "/><Hyperlink NavigateUri="https://discord.gg/dreadnought" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Dreadnought Discord Server"/></Hyperlink><Run Text=", or open an issue in the "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool/issues" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="issue tracker"/></Hyperlink><Run Text=". Dreadnought related issues can be reported via "/><Hyperlink NavigateUri="https://support.greybox.com/hc/en-us/requests/new" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="support.greybox.com"/></Hyperlink><LineBreak/></TextBlock>
+        </StackPanel>
         <Label x:Name="LabelAuthor" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Top" Content=""/>
 
-        <Border BorderBrush="LightGray" BorderThickness="1,0,0,0" HorizontalAlignment="Left" Height="177" Margin="0,0,0,10" Grid.Row="1" VerticalAlignment="Top" Width="1" Grid.Column="1" />
+        <Border BorderBrush="LightGray" BorderThickness="1,0,0,0" HorizontalAlignment="Left" Height="228" Grid.Row="1" VerticalAlignment="Top" Width="1" Grid.Column="1" />
 
 
 
