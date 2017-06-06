@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("support-tool")]
-[assembly: AssemblyCopyright("Copyright Iltar © 2017")]
+[assembly: AssemblyCopyright("Copyright Anyone © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

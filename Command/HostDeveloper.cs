@@ -43,7 +43,7 @@ namespace SupportTool.Command
             }
 
             logger.Log(string.Format("Creating {0}, this might take a while", hostDeveloperFile.FullName));
-            logger.Log("A windows user control popup will appear to run DreadnoughtLauncher.exe as administrator");
+            logger.Log("A windows user account control popup might appear to run DreadnoughtLauncher.exe as administrator");
             
             watcher.NotifyFilter = NotifyFilters.LastWrite;
             watcher.EnableRaisingEvents = true;

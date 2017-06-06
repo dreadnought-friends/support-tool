@@ -41,7 +41,13 @@
             <CheckBox x:Name="SettingDxDiag" Margin="3,3,0,0" Content="Include DxDiag" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDxDiag, Mode=TwoWay}"/>
             <CheckBox x:Name="SettingMsInfo" Margin="3,3,0,0" Content="Include MsInfo32" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeMsInfo, Mode=TwoWay}" />
             <CheckBox x:Name="SettingLogFiles" Margin="3,3,0,0" Content="Include Dreadnought log files" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtLogs, Mode=TwoWay}" />
-            <CheckBox x:Name="SettingHostDeveloper" Margin="3,3,0,0" Content="Include host developer debug file" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeHostDeveloper, Mode=TwoWay}" />
+            <CheckBox x:Name="SettingHostDeveloper" Margin="3,3,0,0" Content="Include host developer debug file" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeHostDeveloper, Mode=TwoWay}" ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="30000">
+                <CheckBox.ToolTip>
+                    <TextBlock TextWrapping="Wrap" Width="300">
+                        To generate this file, the launcher will be started in debug mode which may require you to give permissions to start under administrator privileges. It might take roughly 30 seconds or more for this to show.
+                    </TextBlock>
+                </CheckBox.ToolTip>
+            </CheckBox>
             <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" Height="225" Margin="10,10,0,0" VerticalAlignment="Top" Width="323">
@@ -49,11 +55,12 @@
                 <Run FontWeight="Bold" Text="About"/>
             </Label>
             <TextBlock x:Name="TextBlockAbout" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="322" Text="This community made tool gathers information which the Dreadnought Customer Support might ask of you to assist with issues or bug reports."/>
-            <Label x:Name="LabelContact" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top">
+            <Label x:Name="LabelContact" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top">
                 <Run FontWeight="Bold" Text="Contact"/>
             </Label>
 
-            <TextBlock x:Name="TextBlockContact" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="72" Width="313"><Run Text="For questions, suggestions or bug reports, you can find me (Anyone#8869) on the "/><Hyperlink NavigateUri="https://discord.gg/dreadnought" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Dreadnought Discord Server"/></Hyperlink><Run Text=", or open an issue in the "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool/issues" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="issue tracker"/></Hyperlink><Run Text=". Dreadnought related issues can be reported via "/><Hyperlink NavigateUri="https://support.greybox.com/hc/en-us/requests/new" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="support.greybox.com"/></Hyperlink><LineBreak/></TextBlock>
+            <TextBlock x:Name="TextBlockContact" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" Width="313"><Run Text=" - "/><Hyperlink NavigateUri="https://discord.gg/dreadnought"><Run Text="Dreadnought Discord Server"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool/issues"><Run Text="Report a bug, issue or suggestion"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://support.greybox.com/hc/en-us/requests/new"><Run Text="Create a ticket at support.greybox.com"/></Hyperlink><LineBreak/><LineBreak/></TextBlock>
+            <TextBlock x:Name="textBlockAuthor" TextWrapping="Wrap" Margin="0,38,0,0"><Span FontStyle="Italic">Author: Anyone</Span></TextBlock>
         </StackPanel>
         <Label x:Name="LabelAuthor" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Top" Content=""/>
 
