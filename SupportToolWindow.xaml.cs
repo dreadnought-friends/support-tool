@@ -141,7 +141,7 @@ namespace SupportTool
 
         private void OpenDreadnoughtInstallationDirectory_Click(object sender, RoutedEventArgs e)
         {
-            if (null == config.DnInstallationDirectory || !Directory.Exists(fileAggregator.TempDir))
+            if (null == config.DnInstallationDirectory || !Directory.Exists(config.DnInstallationDirectory))
             {
                 backgroundReportLogger.Log("Could not reliably find the Dreadnought installation directory");
                 return;
