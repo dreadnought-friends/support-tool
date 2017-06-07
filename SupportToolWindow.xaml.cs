@@ -49,7 +49,7 @@ namespace SupportTool
                 Path.Combine(home, @"AppData\Local\DreadGame\Saved\Logs"),
                 Path.Combine(home, "Desktop"),
                 "DN_Support.zip",
-                "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.json"
+                "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.xml"
             );
 
             VersionChecker versionChecker = new VersionChecker(config);

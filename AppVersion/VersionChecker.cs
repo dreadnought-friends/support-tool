@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
+using System.Xml.Serialization;
 
 namespace SupportTool.AppVersion
 {
@@ -18,16 +17,26 @@ namespace SupportTool.AppVersion
         {
             WebClient client = new WebClient();
 
-            string version;
-            string url;
+            string version = "";
+            string url = "";
 
             using (Stream stream = client.OpenRead(config.VersionInfoFileUrl))
             {
                 StreamReader reader = new StreamReader(stream);
-                JObject json = JObject.Parse(reader.ReadToEnd());
+                XmlSerializer serializer = new XmlSerializer(typeof(Tools));
+                Tools tools = (Tools)serializer.Deserialize(reader);
 
-                version = (string)json.SelectToken("support-tool.latest");
-                url = (string)json.SelectToken("support-tool.releases");
+                foreach (ToolsTool tool in tools.Tool)
+                {
+                    if (!tool.Name.Equals("support-tool"))
+                    {
+                        continue;
+                    }
+
+                    version = tool.Latest;
+                    url = tool.ReleasePage;
+                    break;
+                }
             }
 
             return new VersionInfo(config.Version.Equals(version), version, url);
