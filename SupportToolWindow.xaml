@@ -32,6 +32,11 @@
             <StatusBarItem HorizontalAlignment="Left">
                 <Button x:Name="OpenDreadnoughtInstallationDirectory" Content="Open Dreadnought Folder" HorizontalAlignment="left" VerticalAlignment="Top" Width="160" Height="20" Click="OpenDreadnoughtInstallationDirectory_Click"/>
             </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Hyperlink Name="DownloadNewVersionLink" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Run Name="DownloadNewVersionText" />
+                </Hyperlink>
+            </StatusBarItem>
         </StatusBar>
 
         <StackPanel Orientation="Vertical" Name="ConfigurationOptions" Grid.Row="1" Grid.Column="1" Margin="10,10,10,10">
@@ -59,7 +64,7 @@
                 <Run FontWeight="Bold" Text="Contact"/>
             </Label>
 
-            <TextBlock x:Name="TextBlockContact" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" Width="313"><Run Text=" - "/><Hyperlink NavigateUri="https://discord.gg/dreadnought"><Run Text="Dreadnought Discord Server"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool/issues"><Run Text="Report a bug, issue or suggestion"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://support.greybox.com/hc/en-us/requests/new"><Run Text="Create a ticket at support.greybox.com"/></Hyperlink><LineBreak/><LineBreak/></TextBlock>
+            <TextBlock x:Name="TextBlockContact" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" Width="313"><Run Text=" - "/><Hyperlink NavigateUri="https://discord.gg/dreadnought" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Dreadnought Discord Server"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool/issues" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Report a bug, issue or suggestion"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://support.greybox.com/hc/en-us/requests/new" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Create a ticket at support.greybox.com"/></Hyperlink><LineBreak/><LineBreak/></TextBlock>
             <TextBlock x:Name="textBlockAuthor" TextWrapping="Wrap" Margin="0,38,0,0"><Span FontStyle="Italic">Author: Anyone</Span></TextBlock>
         </StackPanel>
         <Label x:Name="LabelAuthor" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Top" Content=""/>

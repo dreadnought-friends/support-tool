@@ -31,6 +31,7 @@ namespace SupportTool
         public string LogFileLocation { get; private set; }
         public string ZipFileLocation { get; private set; }
         public string ZipFileName { get; private set; }
+        public string VersionInfoFileUrl { get; private set; }
 
         public bool CreateZipArchive { get; set; } = true;
         public bool IncludeMsInfo { get; set; } = true;
@@ -43,12 +44,13 @@ namespace SupportTool
             get { return IncludeDreadnoughtLogs || IncludeDxDiag || IncludeMsInfo || IncludeHostDeveloper; }
         }
 
-        public Config(string version, string logFileLocation, string zipFileLocation, string zipFileName)
+        public Config(string version, string logFileLocation, string zipFileLocation, string zipFileName, string versionInfoFileUrl)
         {
-            this.Version = version;
-            this.LogFileLocation = logFileLocation;
-            this.ZipFileLocation = zipFileLocation;
-            this.ZipFileName = zipFileName;
+            Version = version;
+            LogFileLocation = logFileLocation;
+            ZipFileLocation = zipFileLocation;
+            ZipFileName = zipFileName;
+            VersionInfoFileUrl = versionInfoFileUrl;
         }
     }
 }

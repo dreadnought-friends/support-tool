@@ -1,4 +1,5 @@
-﻿using SupportTool.Command;
+﻿using SupportTool.AppVersion;
+using SupportTool.Command;
 using SupportTool.Logger;
 using System;
 using System.Collections.Generic;
@@ -16,19 +17,18 @@ namespace SupportTool
     /// </summary>
     public partial class SupportToolWindow : Window
     {
-        public readonly string Version = "1.0.0";
-
-        private InMemoryLogger logger = new InMemoryLogger();
         private Config config;
         private FileAggregator fileAggregator;
         private List<CommandInterface> commands = new List<CommandInterface>();
         private BackgroundWorker backgroundWorker = new BackgroundWorker();
-        private BackgroundReportLogger backgroundReportLogger;
+        private LoggerInterface logger;
         private Runner runner;
 
         public SupportToolWindow()
         {
             InitializeComponent();
+
+            InMemoryLogger inMemoryLogger = new InMemoryLogger();
 
             Version versionInfo = Assembly.GetExecutingAssembly().GetName().Version;
             string version = String.Format("{0}.{1}.{2}", versionInfo.Major, versionInfo.Minor, versionInfo.Build);
@@ -45,15 +45,18 @@ namespace SupportTool
             string home = Environment.GetEnvironmentVariable("userprofile");
 
             config = new Config(
-                Version,
+                version,
                 Path.Combine(home, @"AppData\Local\DreadGame\Saved\Logs"),
                 Path.Combine(home, "Desktop"),
-                "DN_Support.zip"
+                "DN_Support.zip",
+                "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.json"
             );
 
-            backgroundReportLogger = new BackgroundReportLogger(logger, backgroundWorker);
+            VersionChecker versionChecker = new VersionChecker(config);
+
+            logger = new BackgroundReportLogger(inMemoryLogger, backgroundWorker);
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
-            runner = new Runner(config, fileAggregator, backgroundReportLogger);
+            runner = new Runner(config, fileAggregator, logger);
 
             commands.Add(new TempDirectoryPreparation());
             commands.Add(new HostDeveloper());
@@ -65,6 +68,20 @@ namespace SupportTool
             commands.Add(new Archiver());
 
             ConfigurationOptions.DataContext = config;
+
+            try
+            {
+                VersionInfo info = versionChecker.getLatestVersionInfo();
+                if (!info.IsUpToDate)
+                {
+                    DownloadNewVersionLink.NavigateUri = new Uri(info.Url);
+                    DownloadNewVersionText.Text = String.Format("Version {0} is available!", info.Version);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Log(String.Format("Unable to check for a new version: {0}", e.Message));
+            }
         }
 
         private void StartAggregateData(object sender, DoWorkEventArgs e)
@@ -83,11 +100,11 @@ namespace SupportTool
 
         private void LogCriticalError(string message)
         {
-            backgroundReportLogger.Log("[ERROR]-------------------------------------");
-            backgroundReportLogger.Log("An unexpected error has occured preventing the program from collecting data.");
-            backgroundReportLogger.Log(message);
-            backgroundReportLogger.Log("[ERROR]-------------------------------------");
-            backgroundReportLogger.Log("Please report this error at https://github.com/dreadnought-friends/support-tool");
+            logger.Log("[ERROR]-------------------------------------");
+            logger.Log("An unexpected error has occured preventing the program from collecting data.");
+            logger.Log(message);
+            logger.Log("[ERROR]-------------------------------------");
+            logger.Log("Please report this error at https://github.com/dreadnought-friends/support-tool");
         }
 
         private void FinishAggregateData(object sender, RunWorkerCompletedEventArgs e)
@@ -127,7 +144,7 @@ namespace SupportTool
         {
             if (!Directory.Exists(fileAggregator.TempDir))
             {
-                backgroundReportLogger.Log("No aggregated files found to show");
+                logger.Log("No aggregated files found to show");
                 return;
             }
 
@@ -143,7 +160,7 @@ namespace SupportTool
         {
             if (null == config.DnInstallationDirectory || !Directory.Exists(config.DnInstallationDirectory))
             {
-                backgroundReportLogger.Log("Could not reliably find the Dreadnought installation directory");
+                logger.Log("Could not reliably find the Dreadnought installation directory");
                 return;
             }
 
