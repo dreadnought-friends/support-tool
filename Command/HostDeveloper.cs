@@ -42,8 +42,15 @@ namespace SupportTool.Command
                 fileAggregator.AddVirtualFile(String.Format("{0}.old", hostDeveloperFile.Name));
             }
 
+            if (null != FindDreadnoughtLauncherProcess())
+            {
+                logger.Log("A running Dreadnought launcher is found, close the dreadnought launcher and try again");
+                propagation.ShouldStop = true;
+                return;
+            }
+
             logger.Log(string.Format("Creating {0}, this might take a while", hostDeveloperFile.FullName));
-            logger.Log("A windows user account control popup might appear to run DreadnoughtLauncher.exe as administrator");
+            logger.Log("A windows user account control popup might appear to run the Dreadnought launcher as administrator");
             
             watcher.NotifyFilter = NotifyFilters.LastWrite;
             watcher.EnableRaisingEvents = true;
@@ -60,26 +67,31 @@ namespace SupportTool.Command
             process.WaitForExit();
             process.Close();
 
-            Process[] processes = Process.GetProcessesByName("DreadnoughtLauncher");
+            Process launcherProcess = FindDreadnoughtLauncherProcess();
 
-            foreach (Process launcherProcess in processes)
+            if (null == launcherProcess)
             {
-                // failsafe to prevent older processes from dying, ensures it's only recent
-                if ((DateTime.Now - launcherProcess.StartTime).TotalSeconds < 10)
-                {
-                    launcherProcess.Kill();
-                    logger.Log("Automatically closed the debug launcher");
-                }
-            }
-
-            if (0 == processes.Length)
-            {
-                logger.Log(String.Format("Expected a DreadnoughtLauncher.exe process but it was not found, please allow the debug launcher to run in the popup", DeveloperFile));
+                logger.Log(String.Format("Expected a Dreadnought launcher process but it was not found, please allow the debug launcher to run in the popup", DeveloperFile));
                 propagation.ShouldStop = true;
                 return;
             }
+            
+            launcherProcess.Kill();
+            logger.Log("Automatically closed the debug launcher");
 
             watcher.WaitForChanged(WatcherChangeTypes.Changed);
+        }
+
+        private Process FindDreadnoughtLauncherProcess()
+        {
+            Process[] processes = Process.GetProcessesByName("DreadnoughtLauncher");
+
+            if (1 != processes.Length)
+            {
+                return null;
+            }
+
+            return processes[0];
         }
     }
 }
