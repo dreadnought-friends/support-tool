@@ -15,7 +15,6 @@ namespace SupportTool
                 if (null == registryKey)
                 {
                     return null;
-                    
                 }
 
                 string dir = (string)registryKey.GetValue("Install_Dir");
