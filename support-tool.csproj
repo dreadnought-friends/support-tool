@@ -96,6 +96,7 @@
     <Compile Include="Logger\InMemoryLogger.cs" />
     <Compile Include="CommandInterface.cs" />
     <Compile Include="Command\MsInfo.cs" />
+    <Compile Include="Logger\TextBoxLogger.cs" />
     <Compile Include="Propagation.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Config.cs" />

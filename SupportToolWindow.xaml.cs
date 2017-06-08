@@ -21,7 +21,7 @@ namespace SupportTool
         private FileAggregator fileAggregator;
         private List<CommandInterface> commands = new List<CommandInterface>();
         private BackgroundWorker backgroundWorker = new BackgroundWorker();
-        private LoggerInterface logger;
+        private TextBoxLogger textBoxLogger;
         private Runner runner;
 
         public SupportToolWindow()
@@ -29,6 +29,7 @@ namespace SupportTool
             InitializeComponent();
 
             InMemoryLogger inMemoryLogger = new InMemoryLogger();
+            textBoxLogger = new TextBoxLogger(inMemoryLogger, ExecutionOutput);
 
             Version versionInfo = Assembly.GetExecutingAssembly().GetName().Version;
             string version = String.Format("{0}.{1}.{2}", versionInfo.Major, versionInfo.Minor, versionInfo.Build);
@@ -54,9 +55,9 @@ namespace SupportTool
 
             VersionChecker versionChecker = new VersionChecker(config);
 
-            logger = new BackgroundReportLogger(inMemoryLogger, backgroundWorker);
+            BackgroundReportLogger backgroundReportLogger = new BackgroundReportLogger(inMemoryLogger, backgroundWorker);
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
-            runner = new Runner(config, fileAggregator, logger);
+            runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
             commands.Add(new TempDirectoryPreparation());
             commands.Add(new HostDeveloper());
@@ -80,13 +81,13 @@ namespace SupportTool
             }
             catch (Exception e)
             {
-                logger.Log(String.Format("Unable to check for a new version: {0}", e.Message));
+                textBoxLogger.Log(String.Format("Unable to check for a new version: {0}", e.Message));
             }
         }
 
         private void StartAggregateData(object sender, DoWorkEventArgs e)
         {
-            logger.Clear();
+            textBoxLogger.Clear();
 
             try
             {
@@ -100,11 +101,11 @@ namespace SupportTool
 
         private void LogCriticalError(string message)
         {
-            logger.Log("[ERROR]-------------------------------------");
-            logger.Log("An unexpected error has occured preventing the program from collecting data.");
-            logger.Log(message);
-            logger.Log("[ERROR]-------------------------------------");
-            logger.Log("Please report this error at https://github.com/dreadnought-friends/support-tool");
+            textBoxLogger.Log("[ERROR]-------------------------------------");
+            textBoxLogger.Log("An unexpected error has occured preventing the program from collecting data.");
+            textBoxLogger.Log(message);
+            textBoxLogger.Log("[ERROR]-------------------------------------");
+            textBoxLogger.Log("Please report this error at https://github.com/dreadnought-friends/support-tool");
         }
 
         private void FinishAggregateData(object sender, RunWorkerCompletedEventArgs e)
@@ -144,7 +145,7 @@ namespace SupportTool
         {
             if (!Directory.Exists(fileAggregator.TempDir))
             {
-                logger.Log("No aggregated files found to show");
+                textBoxLogger.Log("No aggregated files found to show");
                 return;
             }
 
@@ -158,9 +159,9 @@ namespace SupportTool
 
         private void OpenDreadnoughtInstallationDirectory_Click(object sender, RoutedEventArgs e)
         {
-            if (null == config.DnInstallationDirectory || !Directory.Exists(config.DnInstallationDirectory))
+            if (null == config.DnInstallationDirectory)
             {
-                logger.Log("Could not reliably find the Dreadnought installation directory");
+                textBoxLogger.Log("Could not reliably find the Dreadnought installation directory");
                 return;
             }
 
