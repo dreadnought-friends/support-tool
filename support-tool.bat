@@ -1,5 +1,5 @@
 @echo off
-mode con: cols=68 lines=32
+mode con: cols=68 lines=38
 title Dreadnought Community Support Tool
 
 setlocal EnableDelayedExpansion
@@ -15,6 +15,12 @@ set "keep=10"
 echo:
 echo   ----------------------------------------------------------------
 echo    DREADNOUGHT COMMUNITY SUPPORT TOOL
+echo   ----------------------------------------------------------------
+echo:
+echo   ----------------------------------------------------------------
+echo    THIS TOOL IS REPLACED BY A NEW VERSION: 2.0.0. Visit:
+echo    https://github.com/dreadnought-friends/support-tool/releases
+echo    AND DOWNLOAD THE NEW VERSION.
 echo   ----------------------------------------------------------------
 echo:
 echo     This tool will create a zip file of your msinfo, dxdiag and 
