@@ -1,6 +1,6 @@
 ﻿namespace SupportTool
 {
-    interface LoggerInterface
+    public interface LoggerInterface
     {
         void Log(string message);
 

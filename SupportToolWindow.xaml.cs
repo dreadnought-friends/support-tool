@@ -1,5 +1,6 @@
 ﻿using SupportTool.AppVersion;
 using SupportTool.Command;
+using SupportTool.Dreadnought;
 using SupportTool.Logger;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -45,12 +47,20 @@ namespace SupportTool
 
             string home = Environment.GetEnvironmentVariable("userprofile");
 
+            bool isElevated;
+            using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+            {
+                WindowsPrincipal principal = new WindowsPrincipal(identity);
+                isElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+
             config = new Config(
                 version,
                 Path.Combine(home, @"AppData\Local\DreadGame\Saved\Logs"),
                 Path.Combine(home, "Desktop"),
                 "DN_Support.zip",
-                "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.xml"
+                "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.xml",
+                isElevated
             );
 
             VersionChecker versionChecker = new VersionChecker(config);
@@ -82,6 +92,12 @@ namespace SupportTool
             catch (Exception e)
             {
                 textBoxLogger.Log(String.Format("Unable to check for a new version: {0}", e.Message));
+            }
+
+            if (!config.IsElevated)
+            {
+                ChangeInstallationDirectory.IsEnabled = false;
+                ChangeInstallationDirectory.Header += " (Restart as Admin)";
             }
         }
 
@@ -161,11 +177,17 @@ namespace SupportTool
         {
             if (null == config.DnInstallationDirectory)
             {
-                textBoxLogger.Log("Could not reliably find the Dreadnought installation directory");
+                textBoxLogger.Log("Could not reliably find the Dreadnought installation directory (Hint: try Tools > Change Installation Directory)");
                 return;
             }
 
             Process.Start(config.DnInstallationDirectory);
+        }
+
+        private void ChangeChangeInstallationDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            Window installationFixer = new ChangeInstallationDirectory(textBoxLogger);
+            installationFixer.Show();
         }
     }
 }

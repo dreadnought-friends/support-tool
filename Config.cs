@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using SupportTool.Dreadnought;
 using System.IO;
 
 namespace SupportTool
@@ -10,27 +11,21 @@ namespace SupportTool
         {
             get
             {
-                RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Grey Box\Dreadnought");
-
-                if (null == registryKey)
+                try
+                {
+                    return InstallationFinder.findInRegistry();
+                }
+                catch
                 {
                     return null;
                 }
-
-                string dir = (string)registryKey.GetValue("Install_Dir");
-
-                if (!Directory.Exists(dir))
-                {
-                    return null;
-                }
-
-                return dir;
             }
         }
         public string LogFileLocation { get; private set; }
         public string ZipFileLocation { get; private set; }
         public string ZipFileName { get; private set; }
         public string VersionInfoFileUrl { get; private set; }
+        public bool IsElevated { get; private set; }
 
         public bool CreateZipArchive { get; set; } = true;
         public bool IncludeMsInfo { get; set; } = true;
@@ -43,13 +38,14 @@ namespace SupportTool
             get { return IncludeDreadnoughtLogs || IncludeDxDiag || IncludeMsInfo || IncludeHostDeveloper; }
         }
 
-        public Config(string version, string logFileLocation, string zipFileLocation, string zipFileName, string versionInfoFileUrl)
+        public Config(string version, string logFileLocation, string zipFileLocation, string zipFileName, string versionInfoFileUrl, bool isElevated)
         {
             Version = version;
             LogFileLocation = logFileLocation;
             ZipFileLocation = zipFileLocation;
             ZipFileName = zipFileName;
             VersionInfoFileUrl = versionInfoFileUrl;
+            IsElevated = isElevated;
         }
     }
 }
