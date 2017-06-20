@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SupportTool.Dreadnought"
         mc:Ignorable="d"
-        Title="Change Installation Directory" Height="190" Width="403" WindowStyle="ToolWindow" ResizeMode="CanMinimize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        Title="Change Installation Directory" Height="190" Width="403" WindowStyle="ToolWindow" ResizeMode="CanMinimize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
