@@ -55,7 +55,7 @@
                 </CheckBox.ToolTip>
             </CheckBox>
             <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
-            <Button x:Name="StartAggregation" Margin="10" Content="Collect Information" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>
+            <Button x:Name="StartAggregation" Margin="4,57,4,15" Content="Collect Selected Information" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>
 
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Left" Height="209" Margin="20,10,0,0" VerticalAlignment="Top" Width="313">

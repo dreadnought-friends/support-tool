@@ -25,13 +25,15 @@ namespace SupportTool
         private BackgroundWorker backgroundWorker = new BackgroundWorker();
         private TextBoxLogger textBoxLogger;
         private Runner runner;
+        private ChangeInstallationDirectory changeInstallationDirectory;
 
         public SupportToolWindow()
         {
             InitializeComponent();
-
+            
             InMemoryLogger inMemoryLogger = new InMemoryLogger();
             textBoxLogger = new TextBoxLogger(inMemoryLogger, ExecutionOutput);
+            changeInstallationDirectory = new ChangeInstallationDirectory(textBoxLogger);
 
             Version versionInfo = Assembly.GetExecutingAssembly().GetName().Version;
             string version = String.Format("{0}.{1}.{2}", versionInfo.Major, versionInfo.Minor, versionInfo.Build);
@@ -53,7 +55,7 @@ namespace SupportTool
                 WindowsPrincipal principal = new WindowsPrincipal(identity);
                 isElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
-
+            
             config = new Config(
                 version,
                 Path.Combine(home, @"AppData\Local\DreadGame\Saved\Logs"),
@@ -186,8 +188,15 @@ namespace SupportTool
 
         private void ChangeChangeInstallationDirectory_Click(object sender, RoutedEventArgs e)
         {
-            Window installationFixer = new ChangeInstallationDirectory(textBoxLogger);
-            installationFixer.Show();
+            if (changeInstallationDirectory.IsVisible)
+            {
+                changeInstallationDirectory.Activate();
+                return;
+            }
+
+            changeInstallationDirectory.Show();
+            changeInstallationDirectory.Activate();
+            changeInstallationDirectory.guessInputValue();
         }
     }
 }

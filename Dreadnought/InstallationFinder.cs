@@ -41,7 +41,6 @@ namespace SupportTool.Dreadnought
                 if (shortcut.Contains("DreadnoughtLauncher.exe")) {
                     return shortcut;
                 }
-
             }
 
             throw new Exception.DreadnoughtShortcutNotFoundException();

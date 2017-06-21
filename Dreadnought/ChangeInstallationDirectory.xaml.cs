@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using SupportTool.Dreadnought.Exception;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,20 +17,6 @@ namespace SupportTool.Dreadnought
             this.logger = logger;
 
             InitializeComponent();
-
-            InstallationInput.TextChanged += InstallationInput_TextChanged;
-
-            string installationDirectory = "";
-
-            try
-            {
-                installationDirectory = InstallationFinder.findInDesktop();
-            }
-            catch (DreadnoughtShortcutNotFoundException)
-            {
-            }
-
-            InstallationInput.Text = installationDirectory;
         }
 
         private void InstallationInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -67,7 +54,38 @@ namespace SupportTool.Dreadnought
 
             this.logger.Log(String.Format("Installation directory set to {0}", InstallationFinder.findInRegistry()));
 
-            Close();
+            Hide();
+        }
+
+        public void guessInputValue()
+        {
+            InstallationInput.TextChanged += InstallationInput_TextChanged;
+
+            string installationDirectory = "";
+
+            try
+            {
+                installationDirectory = InstallationFinder.findInDesktop();
+            }
+            catch
+            {
+                try
+                {
+                    installationDirectory = Path.Combine(InstallationFinder.findInRegistry(), "DreadnoughtLauncher.exe");
+                }
+                catch
+                {
+                    installationDirectory = "";
+                }
+            }
+
+            InstallationInput.Text = installationDirectory;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
         }
     }
 }
