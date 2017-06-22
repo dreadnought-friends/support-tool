@@ -18,7 +18,7 @@ namespace SupportTool.Command
 
             if (null == config.DnInstallationDirectory)
             {
-                logger.Log("Skipping host.developer Dump, unable to detect where Dreadnought is installed");
+                logger.Log("Skipping host.developer Dump, unable to detect where Dreadnought is installed (Hint: try Tools > Change Installation Directory)");
                 propagation.ShouldStop = true;
                 return;
             }

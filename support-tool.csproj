@@ -52,6 +52,7 @@
   <PropertyGroup>
     <ApplicationIcon>Application.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -77,6 +78,10 @@
     </ApplicationDefinition>
     <Compile Include="AppVersion\XmlEntities.cs" />
     <Compile Include="AppVersion\VersionChecker.cs" />
+    <Page Include="Dreadnought\ChangeInstallationDirectory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SupportToolWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -92,6 +97,15 @@
     <Compile Include="Command\DxDiag.cs" />
     <Compile Include="Command\AggregatedFileCollector.cs" />
     <Compile Include="Command\HostDeveloper.cs" />
+    <Compile Include="Dreadnought\Exception\DreadnoughtShortcutNotFoundException.cs" />
+    <Compile Include="Dreadnought\Exception\KeyNotFoundException.cs" />
+    <Compile Include="Dreadnought\Exception\InvalidLocationException.cs" />
+    <Compile Include="Dreadnought\ChangeInstallationDirectory.xaml.cs">
+      <DependentUpon>ChangeInstallationDirectory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dreadnought\Installation.cs" />
+    <Compile Include="Dreadnought\InstallationFinder.cs" />
+    <Compile Include="Dreadnought\InstallationFixer.cs" />
     <Compile Include="Logger\BackgroundReportLogger.cs" />
     <Compile Include="Logger\InMemoryLogger.cs" />
     <Compile Include="CommandInterface.cs" />
@@ -158,6 +172,23 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Application.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\DreadGame.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Folder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
