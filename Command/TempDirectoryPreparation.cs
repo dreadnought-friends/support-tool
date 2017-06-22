@@ -7,7 +7,9 @@ namespace SupportTool.Command
     {
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
-            if (!Directory.Exists(fileAggregator.TempDir))
+            DirectoryInfo tempDir = new DirectoryInfo(fileAggregator.TempDir);
+
+            if (!tempDir.Exists)
             {
                 logger.Log(string.Format("Created {0}", fileAggregator.TempDir));
                 Directory.CreateDirectory(fileAggregator.TempDir);
@@ -16,8 +18,15 @@ namespace SupportTool.Command
 
             logger.Log(string.Format("Cleaning up old files in {0}", fileAggregator.TempDir));
 
-            Directory.Delete(fileAggregator.TempDir, true);
-            Directory.CreateDirectory(fileAggregator.TempDir);
+            foreach (FileInfo file in tempDir.GetFiles())
+            {
+                file.Delete();
+            }
+
+            foreach (DirectoryInfo dir in tempDir.GetDirectories())
+            {
+                dir.Delete(true);
+            }
 
             fileAggregator.AggregatedFiles.Clear();
         }
