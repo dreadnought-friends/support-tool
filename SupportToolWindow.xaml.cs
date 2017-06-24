@@ -81,6 +81,7 @@ namespace SupportTool
             commands.Add(new Archiver());
 
             ConfigurationOptions.DataContext = config;
+            DownloadNewVersionText.Text = "";
 
             try
             {
