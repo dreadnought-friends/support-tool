@@ -183,7 +183,12 @@ namespace SupportTool
                 return;
             }
 
-            Process.Start(config.DnInstallationDirectory);
+            var process = Process.Start(new ProcessStartInfo()
+            {
+                FileName = config.DnInstallationDirectory,
+                UseShellExecute = true,
+                Verb = "Open"
+            });
         }
 
         private void ChangeChangeInstallationDirectory_Click(object sender, RoutedEventArgs e)
