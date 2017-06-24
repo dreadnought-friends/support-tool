@@ -40,32 +40,43 @@
         </Menu>
         <TextBox Grid.Row="1" Grid.ColumnSpan="2" x:Name="ExecutionOutput" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="240" BorderBrush="LightGray" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="660" />
 
-        <StackPanel Orientation="Vertical" Name="ConfigurationOptions" Grid.Row="2" Grid.Column="1" Margin="10,10,10,10">
-            <Label x:Name="LabelSettings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,0,0,0">
-                <Run FontWeight="Bold" Text="Settings"/>
-            </Label>
-            <CheckBox x:Name="SettingDxDiag" Margin="3,3,0,0" Content="Include DxDiag" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDxDiag, Mode=TwoWay}"/>
-            <CheckBox x:Name="SettingMsInfo" Margin="3,3,0,0" Content="Include MsInfo32" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeMsInfo, Mode=TwoWay}" />
-            <CheckBox x:Name="SettingLogFiles" Margin="3,3,0,0" Content="Include Dreadnought log files" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtLogs, Mode=TwoWay}" />
-            <CheckBox x:Name="SettingHostDeveloper" Margin="3,3,0,0" Content="Include host developer debug file" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeHostDeveloper, Mode=TwoWay}" ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="30000">
-                <CheckBox.ToolTip>
-                    <TextBlock TextWrapping="Wrap" Width="300">
+        <Grid Grid.Row="2" Grid.Column="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Name="ConfigurationOptions" Grid.ColumnSpan="2">
+                <Label x:Name="LabelSettings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,0,0,0">
+                    <Run FontWeight="Bold" Text="Settings"/>
+                </Label>
+                <CheckBox x:Name="SettingDxDiag" Margin="3,3,0,0" Content="Include DxDiag" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDxDiag, Mode=TwoWay}"/>
+                <CheckBox x:Name="SettingMsInfo" Margin="3,3,0,0" Content="Include MsInfo32" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeMsInfo, Mode=TwoWay}" />
+                <CheckBox x:Name="SettingLogFiles" Margin="3,3,0,0" Content="Include Dreadnought log files" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtLogs, Mode=TwoWay}" />
+                <CheckBox x:Name="SettingHostDeveloper" Margin="3,3,0,0" Content="Include host developer debug file" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeHostDeveloper, Mode=TwoWay}" ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="30000">
+                    <CheckBox.ToolTip>
+                        <TextBlock TextWrapping="Wrap" Width="300">
                         To generate this file, the launcher will be started in debug mode which may require you to give permissions to start under administrator privileges. It might take roughly 30 seconds or more for this to show.
-                    </TextBlock>
-                </CheckBox.ToolTip>
-            </CheckBox>
-            <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
-            <Button x:Name="StartAggregation" Margin="4,57,4,15" Content="Collect Selected Information" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>
-
-        </StackPanel>
+                        </TextBlock>
+                    </CheckBox.ToolTip>
+                </CheckBox>
+                <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
+            </StackPanel>
+            <Button x:Name="StartAggregation" Grid.Row="1" Content="Collect Selected Information" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Hyperlink Name="DownloadNewVersionLink" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Run Name="DownloadNewVersionText" Text="Version x.x.x is available!" />
+                </Hyperlink>
+            </TextBlock>
+        </Grid>
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Left" Height="209" Margin="20,10,0,0" VerticalAlignment="Top" Width="313">
             <Label x:Name="LabelAbout" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Run FontWeight="Bold" Text="About"/>
             </Label>
             <TextBlock x:Name="TextBlockAbout" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="322"><Run Text="This community made tool gathers information which the Dreadnought Customer Support might ask of you to assist with issues or bug reports."/>
-                <Hyperlink Name="DownloadNewVersionLink" RequestNavigate="Hyperlink_RequestNavigate">
-                    <Run Name="DownloadNewVersionText" />
-                </Hyperlink>
             </TextBlock>
             <Label x:Name="LabelContact" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top">
                 <Run FontWeight="Bold" Text="Contact"/>
