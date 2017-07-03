@@ -15,14 +15,14 @@ namespace SupportTool.Command
 
             logger.Log("Generating msinfo32 dump");
 
-            FileInfo reportFile = fileAggregator.AddVirtualFile("msinfo32.txt");
+            FileInfo reportFile = fileAggregator.AddVirtualFile("msinfo32.nfo");
 
             Process process = new Process();
             process.EnableRaisingEvents = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = "msinfo32.exe";
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.Arguments = string.Format("/report {0}", reportFile.FullName);
+            process.StartInfo.Arguments = string.Format("/nfo {0}", reportFile.FullName);
             process.Start();
             process.WaitForExit();
             process.Close();

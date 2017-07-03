@@ -55,11 +55,11 @@ namespace SupportTool
                 WindowsPrincipal principal = new WindowsPrincipal(identity);
                 isElevated = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
-            
+
             config = new Config(
                 version,
-                Path.Combine(home, @"AppData\Local\DreadGame\Saved\Logs"),
-                Path.Combine(home, "Desktop"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"DreadGame\Saved\Logs"),
+                Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 "DN_Support.zip",
                 "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.xml",
                 isElevated
