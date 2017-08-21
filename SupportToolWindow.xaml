@@ -63,6 +63,7 @@
                         </TextBlock>
                     </CheckBox.ToolTip>
                 </CheckBox>
+                <CheckBox x:Name="SettingCrashDumps" Margin="3,3,0,0" Content="Include Dreadnought crash dumps" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtCrashDumps, Mode=TwoWay}" />
                 <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
             </StackPanel>
             <Button x:Name="StartAggregation" Grid.Row="1" Content="Collect Selected Information" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>

@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Command\CustomerSupportReadme.cs" />
     <Compile Include="Command\Archiver.cs" />
+    <Compile Include="Command\DreadnoughtCrashDumps.cs" />
     <Compile Include="Command\TempDirectoryPreparation.cs" />
     <Compile Include="Command\DreadnoughtLogs.cs" />
     <Compile Include="Command\DxDiag.cs" />

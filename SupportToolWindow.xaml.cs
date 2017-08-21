@@ -77,6 +77,7 @@ namespace SupportTool
             commands.Add(new DxDiag());
             commands.Add(new MsInfo());
             commands.Add(new DreadnoughtLogs());
+            commands.Add(new DreadnoughtCrashDumps());
             commands.Add(new AggregatedFileCollector());
             commands.Add(new Archiver());
 
