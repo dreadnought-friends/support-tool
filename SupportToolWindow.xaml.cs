@@ -137,6 +137,7 @@ namespace SupportTool
             SettingDxDiag.IsEnabled = true;
             SettingMsInfo.IsEnabled = true;
             SettingLogFiles.IsEnabled = true;
+            SettingCrashDumps.IsEnabled = true;
             SettingArchive.IsEnabled = true;
             SettingHostDeveloper.IsEnabled = true;
             StartAggregation.IsEnabled = true;
@@ -154,6 +155,7 @@ namespace SupportTool
             SettingDxDiag.IsEnabled = false;
             SettingMsInfo.IsEnabled = false;
             SettingLogFiles.IsEnabled = false;
+            SettingCrashDumps.IsEnabled = false;
             SettingArchive.IsEnabled = false;
             SettingHostDeveloper.IsEnabled = false;
             StartAggregation.IsEnabled = false;
