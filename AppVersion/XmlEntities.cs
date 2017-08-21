@@ -33,11 +33,26 @@
     public partial class ToolsTool
     {
 
+        private ToolsToolMotd motdField;
+
         private string nameField;
 
         private string releasePageField;
 
         private string latestField;
+
+        /// <remarks/>
+        public ToolsToolMotd motd
+        {
+            get
+            {
+                return this.motdField;
+            }
+            set
+            {
+                this.motdField = value;
+            }
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -81,4 +96,45 @@
             }
         }
     }
+
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class ToolsToolMotd
+    {
+
+        private string bodyField;
+
+        private string titleField;
+
+        /// <remarks/>
+        public string body
+        {
+            get
+            {
+                return this.bodyField;
+            }
+            set
+            {
+                this.bodyField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string title
+        {
+            get
+            {
+                return this.titleField;
+            }
+            set
+            {
+                this.titleField = value;
+            }
+        }
+    }
+
+
 }

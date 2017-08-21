@@ -86,6 +86,10 @@ namespace SupportTool
             try
             {
                 VersionInfo info = versionChecker.getLatestVersionInfo();
+
+                textBoxLogger.Log(info.MotdTitle);
+                textBoxLogger.Log(info.MotdBody);
+
                 if (!info.IsUpToDate)
                 {
                     DownloadNewVersionLink.NavigateUri = new Uri(info.Url);
