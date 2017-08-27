@@ -76,6 +76,7 @@ namespace SupportTool
             commands.Add(new CustomerSupportReadme());
             commands.Add(new DxDiag());
             commands.Add(new MsInfo());
+            commands.Add(new Connection());
             commands.Add(new DreadnoughtLogs());
             commands.Add(new DreadnoughtCrashDumps());
             commands.Add(new AggregatedFileCollector());
@@ -136,6 +137,7 @@ namespace SupportTool
         {
             SettingDxDiag.IsEnabled = true;
             SettingMsInfo.IsEnabled = true;
+            SettingConnection.IsEnabled = true;
             SettingLogFiles.IsEnabled = true;
             SettingCrashDumps.IsEnabled = true;
             SettingArchive.IsEnabled = true;
@@ -154,6 +156,7 @@ namespace SupportTool
         {
             SettingDxDiag.IsEnabled = false;
             SettingMsInfo.IsEnabled = false;
+            SettingConnection.IsEnabled = false;
             SettingLogFiles.IsEnabled = false;
             SettingCrashDumps.IsEnabled = false;
             SettingArchive.IsEnabled = false;

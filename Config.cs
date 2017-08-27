@@ -30,13 +30,14 @@ namespace SupportTool
         public bool CreateZipArchive { get; set; } = true;
         public bool IncludeMsInfo { get; set; } = true;
         public bool IncludeDxDiag { get; set; } = true;
+        public bool IncludeConnection { get; set; } = true;
         public bool IncludeDreadnoughtLogs { get; set; } = true;
         public bool IncludeHostDeveloper { get; set; } = true;
         public bool IncludeDreadnoughtCrashDumps { get; set; } = true;
 
         public bool CanCreateArchive
         {
-            get { return IncludeDreadnoughtLogs || IncludeDreadnoughtCrashDumps || IncludeDxDiag || IncludeMsInfo || IncludeHostDeveloper; }
+            get { return IncludeDreadnoughtLogs || IncludeDreadnoughtCrashDumps || IncludeConnection || IncludeDxDiag || IncludeMsInfo || IncludeHostDeveloper; }
         }
 
         public Config(string version, string logFileLocation, string zipFileLocation, string zipFileName, string versionInfoFileUrl, bool isElevated)
