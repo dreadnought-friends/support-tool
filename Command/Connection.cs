@@ -1,23 +1,13 @@
-﻿using System.Diagnostics;
+﻿using SupportTool.Ping;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Net.NetworkInformation;
+using System.Linq;
 
 namespace SupportTool.Command
 {
     class Connection : CommandInterface
     {
-        private string[] IpPings = new string[] {
-            "172.86.100.9",
-            "172.86.100.100",
-            "172.86.100.101",
-            "172.86.100.102",
-            "172.86.100.103",
-            "172.86.100.104",
-            "172.86.100.105",
-            "172.86.100.106",
-            "172.86.100.107"
-        };
-
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeConnection)
@@ -28,11 +18,35 @@ namespace SupportTool.Command
 
             logger.Log("Generating connection information to the Dreadnought servers, this might take a while");
 
+            List<FileInfo> files = Directory.GetFiles(config.LogFileLocation)
+                .Select(x => new FileInfo(x))
+                .ToList();
+
+            if (0 == files.Count)
+            {
+                logger.Log("No IP addresses found to ping as no log files exist, skipping connection information.");
+                return;
+            }
+
+            HashSet<string> ipAddresses = new HashSet<string>();
+
+            foreach (FileInfo file in files)
+            {
+                ipAddresses.UnionWith(IpFinder.findIps(file));
+            }
+
+            if (0 == ipAddresses.Count)
+            {
+                logger.Log("No IP addresses found to ping, skipping connection information.");
+                return;
+            }
+
+            List<string> IpPings = ipAddresses.ToList();
+
             FileInfo reportFile = fileAggregator.AddVirtualFile("connection-information.txt");
 
             using (StreamWriter writer = reportFile.CreateText())
             {
-
                 logger.Log("Tracing route to one of the servers");
                 writer.WriteLine(string.Format("==== TRACERT: {0} ====", IpPings[0]));
                 writer.WriteLine(probeConnection("tracert", IpPings[0]));

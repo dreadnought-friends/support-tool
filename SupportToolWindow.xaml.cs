@@ -114,23 +114,7 @@ namespace SupportTool
         {
             textBoxLogger.Clear();
 
-            try
-            {
-                runner.Run(commands);
-            }
-            catch (Exception exception)
-            {
-                LogCriticalError(exception.Message);
-            }
-        }
-
-        private void LogCriticalError(string message)
-        {
-            textBoxLogger.Log("[ERROR]-------------------------------------");
-            textBoxLogger.Log("An unexpected error has occured preventing the program from collecting data.");
-            textBoxLogger.Log(message);
-            textBoxLogger.Log("[ERROR]-------------------------------------");
-            textBoxLogger.Log("Please report this error at https://github.com/dreadnought-friends/support-tool");
+            runner.Run(commands);
         }
 
         private void FinishAggregateData(object sender, RunWorkerCompletedEventArgs e)

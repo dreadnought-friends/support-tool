@@ -113,6 +113,7 @@
     <Compile Include="CommandInterface.cs" />
     <Compile Include="Command\MsInfo.cs" />
     <Compile Include="Logger\TextBoxLogger.cs" />
+    <Compile Include="Ping\IpFinder.cs" />
     <Compile Include="Propagation.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Config.cs" />
