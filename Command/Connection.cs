@@ -70,7 +70,7 @@ namespace SupportTool.Command
             };
             process.Start();
 
-            logger.Log("Pinging known dreadnought servers");
+            logger.Log("Pinging known dreadnought servers, this might take a few seconds");
             using (StreamWriter writer = reportFile.CreateText())
             {
                 List<string> errors = new List<string>();
