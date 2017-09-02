@@ -20,7 +20,6 @@ namespace SupportTool
         {
             Propagation propagation = new Propagation();
 
-
             foreach (CommandInterface command in commands)
             {
                 if (propagation.ShouldStop)

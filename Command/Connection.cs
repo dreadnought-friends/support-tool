@@ -1,4 +1,5 @@
 ﻿using SupportTool.Ping;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,8 +16,6 @@ namespace SupportTool.Command
                 logger.Log("Skipping connection information to the Dreadnought servers");
                 return;
             }
-
-            logger.Log("Generating connection information to the Dreadnought servers, this might take a while");
 
             List<FileInfo> files = Directory.GetFiles(config.LogFileLocation)
                 .Select(x => new FileInfo(x))
@@ -42,39 +41,67 @@ namespace SupportTool.Command
             }
 
             List<string> IpPings = ipAddresses.ToList();
-
             FileInfo reportFile = fileAggregator.AddVirtualFile("connection-information.txt");
 
+            // trace route to the first IP in the list
+            Process process = new Process
+            {
+                StartInfo =
+                {
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                    FileName = "cmd.exe",
+                    Arguments = "/C tracert -d " + IpPings[0]
+                }
+            };
+            process.Start();
+
+            logger.Log("Pinging known dreadnought servers");
             using (StreamWriter writer = reportFile.CreateText())
             {
-                logger.Log("Tracing route to one of the servers");
-                writer.WriteLine(string.Format("==== TRACERT: {0} ====", IpPings[0]));
-                writer.WriteLine(probeConnection("tracert", IpPings[0]));
-
-                logger.Log("Pinging known dreadnought servers");
-                foreach (string ipAddress in IpPings)
+                // small packages
+                foreach (PingResult result in Pinger.PingHosts(IpPings))
                 {
-                    writer.WriteLine(string.Format("==== PING: {0} ====", ipAddress));
-                    writer.WriteLine(probeConnection("ping", ipAddress));
+                    writeResult(logger, writer, result);
                 }
+                writer.WriteLine("");
+
+                // large packages
+                foreach (PingResult result in Pinger.PingHosts(IpPings, 256))
+                {
+                    writeResult(logger, writer, result);
+                }
+
+                writer.WriteLine("");
+                process.WaitForExit();
+                writer.WriteLine(process.StandardOutput.ReadToEnd());
+
             }
         }
 
-        private static string probeConnection(string command, string host)
+        private void writeResult(LoggerInterface logger, StreamWriter writer, PingResult result)
         {
-            Process process = new Process();
-            process.EnableRaisingEvents = true;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.FileName = command;
-            process.StartInfo.Arguments = host;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-            process.WaitForExit();
-            string output = process.StandardOutput.ReadToEnd();
-            process.Close();
+            writer.WriteLine(String.Format(
+                "Host: {0}\t{1} bytes\t{2}\t{3} pings",
+                result.Host,
+                result.PayloadSize.ToString(),
+                result.Errors.Count != result.PingAttempts ? result.AveragePing + "ms" : "-----",
+                result.PingAttempts
+            ));
 
-            return output;
+            if (result.Errors.Count > 0)
+            {
+                // ensure a new line for readability
+                writer.WriteLine("");
+            }
+
+            foreach (string error in result.Errors.Distinct())
+            {
+                writer.WriteLine(error);
+                logger.Log(error);
+            }
         }
     }
 }
