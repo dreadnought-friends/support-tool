@@ -31,10 +31,6 @@ namespace SupportTool
         {
             InitializeComponent();
             
-            InMemoryLogger inMemoryLogger = new InMemoryLogger();
-            textBoxLogger = new TextBoxLogger(inMemoryLogger, ExecutionOutput);
-            changeInstallationDirectory = new ChangeInstallationDirectory(textBoxLogger);
-
             Version versionInfo = Assembly.GetExecutingAssembly().GetName().Version;
             string version = String.Format("{0}.{1}.{2}", versionInfo.Major, versionInfo.Minor, versionInfo.Build);
 
@@ -65,9 +61,17 @@ namespace SupportTool
                 isElevated
             );
 
+#if DEBUG
+            config.ShowLogTimes = true;
+#endif
+
+            InMemoryLogger inMemoryLogger = new InMemoryLogger();
+            textBoxLogger = new TextBoxLogger(config, inMemoryLogger, ExecutionOutput);
+            changeInstallationDirectory = new ChangeInstallationDirectory(textBoxLogger);
+
             VersionChecker versionChecker = new VersionChecker(config);
 
-            BackgroundReportLogger backgroundReportLogger = new BackgroundReportLogger(inMemoryLogger, backgroundWorker);
+            BackgroundReportLogger backgroundReportLogger = new BackgroundReportLogger(config, inMemoryLogger, backgroundWorker);
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 

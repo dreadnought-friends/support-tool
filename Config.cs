@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-using SupportTool.Dreadnought;
-using System.IO;
+﻿using SupportTool.Dreadnought;
 
 namespace SupportTool
 {
@@ -26,6 +24,8 @@ namespace SupportTool
         public string ZipFileName { get; private set; }
         public string VersionInfoFileUrl { get; private set; }
         public bool IsElevated { get; private set; }
+
+        public bool ShowLogTimes = false;
 
         public bool CreateZipArchive { get; set; } = true;
         public bool IncludeMsInfo { get; set; } = true;

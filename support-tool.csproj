@@ -112,6 +112,7 @@
     <Compile Include="Logger\InMemoryLogger.cs" />
     <Compile Include="CommandInterface.cs" />
     <Compile Include="Command\MsInfo.cs" />
+    <Compile Include="Logger\LoggingFormatter.cs" />
     <Compile Include="Logger\TextBoxLogger.cs" />
     <Compile Include="Ping\IpFinder.cs" />
     <Compile Include="Propagation.cs" />

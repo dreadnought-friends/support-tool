@@ -5,26 +5,33 @@ namespace SupportTool.Logger
 {
     class TextBoxLogger : LoggerInterface
     {
-        private LoggerInterface inner;
-        private TextBox textBox;
+        private Config Config;
+        private LoggerInterface Inner;
+        private TextBox TextBox;
 
-        public TextBoxLogger(LoggerInterface inner, TextBox textBox)
+        public TextBoxLogger(Config config, LoggerInterface inner, TextBox textBox)
         {
-            this.inner = inner;
-            this.textBox = textBox;
+            Config = config;
+            Inner = inner;
+            TextBox = textBox;
         }
 
         public void Clear()
         {
-            inner.Clear();
+            Inner.Clear();
         }
 
         public void Log(string message)
         {
-            inner.Log(message);
+            if (Config.ShowLogTimes)
+            {
+                message = LoggingFormatter.FormatTime(message);
+            }
 
-            textBox.AppendText(message + Environment.NewLine);
-            textBox.ScrollToEnd();
+            Inner.Log(message);
+
+            TextBox.AppendText(message + Environment.NewLine);
+            TextBox.ScrollToEnd();
         }
     }
 }
