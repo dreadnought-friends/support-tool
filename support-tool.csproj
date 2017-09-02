@@ -116,6 +116,7 @@
     <Compile Include="Logger\TextBoxLogger.cs" />
     <Compile Include="Ping\IpFinder.cs" />
     <Compile Include="Ping\Pinger.cs" />
+    <Compile Include="Ping\PingRequestReply.cs" />
     <Compile Include="Ping\PingResult.cs" />
     <Compile Include="Propagation.cs" />
     <Compile Include="Runner.cs" />

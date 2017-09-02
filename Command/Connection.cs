@@ -40,7 +40,19 @@ namespace SupportTool.Command
                 return;
             }
 
-            List<string> IpPings = ipAddresses.ToList();
+            try
+            {
+                CheckConnnection(ipAddresses.ToList(), fileAggregator, logger);
+            }
+            catch (Exception)
+            {
+                propagation.ShouldStop = true;
+                logger.Log("Pinging the servers failed, please check your connection.");
+            }
+        }
+
+        private void CheckConnnection(List<string> ipAddresses, FileAggregator fileAggregator, LoggerInterface logger)
+        {
             FileInfo reportFile = fileAggregator.AddVirtualFile("connection-information.txt");
 
             // trace route to the first IP in the list
@@ -53,7 +65,7 @@ namespace SupportTool.Command
                     RedirectStandardError = true,
                     CreateNoWindow = true,
                     FileName = "cmd.exe",
-                    Arguments = "/C tracert -d " + IpPings[0]
+                    Arguments = "/C tracert -d " + ipAddresses[0]
                 }
             };
             process.Start();
@@ -61,47 +73,48 @@ namespace SupportTool.Command
             logger.Log("Pinging known dreadnought servers");
             using (StreamWriter writer = reportFile.CreateText())
             {
+                List<string> errors = new List<string>();
+
                 // small packages
-                foreach (PingResult result in Pinger.PingHosts(IpPings))
+                foreach (PingResult result in Pinger.PingHosts(ipAddresses))
                 {
-                    writeResult(logger, writer, result);
+                    errors.AddRange(WriteResultAndGetErrors(logger, writer, result));
                 }
+
                 writer.WriteLine("");
 
                 // large packages
-                foreach (PingResult result in Pinger.PingHosts(IpPings, 256))
+                foreach (PingResult result in Pinger.PingHosts(ipAddresses, 256))
                 {
-                    writeResult(logger, writer, result);
+                    errors.AddRange(WriteResultAndGetErrors(logger, writer, result));
                 }
 
                 writer.WriteLine("");
+                foreach (string error in errors.Distinct())
+                {
+                    writer.WriteLine(error);
+                }
+                
                 process.WaitForExit();
                 writer.WriteLine(process.StandardOutput.ReadToEnd());
-
             }
         }
 
-        private void writeResult(LoggerInterface logger, StreamWriter writer, PingResult result)
+        private List<string> WriteResultAndGetErrors(LoggerInterface logger, StreamWriter writer, PingResult result)
         {
+            string pingMessage = result.Errors.Count > 0
+                ? String.Format("{0}/{1} pings failed", result.Errors.Count, result.PingAttempts)
+                : String.Format("{0} pings", result.PingAttempts);
+
             writer.WriteLine(String.Format(
-                "Host: {0}\t{1} bytes\t{2}\t{3} pings",
+                "Host: {0}\t{1} bytes\t{2}\t{3}",
                 result.Host,
-                result.PayloadSize.ToString(),
+                result.PayloadSize,
                 result.Errors.Count != result.PingAttempts ? result.AveragePing + "ms" : "-----",
-                result.PingAttempts
+                pingMessage
             ));
-
-            if (result.Errors.Count > 0)
-            {
-                // ensure a new line for readability
-                writer.WriteLine("");
-            }
-
-            foreach (string error in result.Errors.Distinct())
-            {
-                writer.WriteLine(error);
-                logger.Log(error);
-            }
+            
+            return result.Errors;
         }
     }
 }

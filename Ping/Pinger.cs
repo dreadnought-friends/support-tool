@@ -16,10 +16,10 @@ namespace SupportTool.Ping
             Dictionary<string, List<PingReply>> sortedResults = new Dictionary<string, List<PingReply>>();
 
             // sort per IP
-            foreach (PingReply reply in PingAsync(hosts, buffer))
+            foreach (PingRequestReply reply in PingAsync(hosts, buffer))
             {
                 List<PingReply> item;
-                string host = reply.Address.ToString();
+                string host = reply.OriginalHost;
                 
                 if (!sortedResults.TryGetValue(host, out item))
                 {
@@ -27,7 +27,7 @@ namespace SupportTool.Ping
                     sortedResults[host] = item;
                 }
 
-                item.Add(reply);
+                item.Add(reply.PingReply);
             }
 
             List<PingResult> pingResults = new List<PingResult>();
@@ -38,25 +38,24 @@ namespace SupportTool.Ping
                 List<string> errors = new List<string>();
                 long totalTime = 0;
 
-
                 foreach (PingReply reply in item.Value)
                 {
-                    if (reply.Status != IPStatus.Success)
+                    if (reply.Status == IPStatus.Success)
                     {
-                        errors.Add(String.Format("Connecting to {0} failed. Error: {1}.", reply.Address, reply.Status.ToString()));
+                        totalTime += reply.RoundtripTime;
                         continue;
                     }
 
-                    totalTime += reply.RoundtripTime;
+                    string error = item.Key.Equals(reply.Address.ToString())
+                        ? String.Format("Connecting to {0} failed. Error: {2}.", item.Key, reply.Status.ToString())
+                        : String.Format("Connecting to {0} (resolved to {1}) failed. Error: {2}.", item.Key, reply.Address, reply.Status.ToString());
+
+                    errors.Add(error);
                 }
                 
                 int actualPings = item.Value.Count - errors.Count;
-                if (actualPings == 0)
-                {
-                    Console.WriteLine(errors.ToString());
-                }
-
                 double average = actualPings > 0 ? totalTime / actualPings : 0;
+
                 pingResults.Add(new PingResult(item.Key, average, bufferSizeInBytes, item.Value.Count, errors));
             }
 
@@ -64,7 +63,7 @@ namespace SupportTool.Ping
             return pingResults;
         }
 
-        private static List<PingReply> PingAsync(List<string> hosts, byte[] buffer)
+        private static List<PingRequestReply> PingAsync(List<string> hosts, byte[] buffer)
         {
             List<string> repeatedHosts = new List<string>();
 
@@ -73,7 +72,7 @@ namespace SupportTool.Ping
                 repeatedHosts.AddRange(hosts);
             }
 
-            List<Task<PingReply>> pingTasks = new List<Task<PingReply>>();
+            List<Task<PingRequestReply>> pingTasks = new List<Task<PingRequestReply>>();
             foreach (var address in repeatedHosts)
             {
                 pingTasks.Add(PingAsync(address));
@@ -84,13 +83,13 @@ namespace SupportTool.Ping
             return pingTasks.Select(t => t.Result).ToList();
         }
 
-        private static Task<PingReply> PingAsync(string address)
+        private static Task<PingRequestReply> PingAsync(string address)
         {
-            var tcs = new TaskCompletionSource<PingReply>();
+            var tcs = new TaskCompletionSource<PingRequestReply>();
             var ping = new System.Net.NetworkInformation.Ping();
             ping.PingCompleted += (object sender, PingCompletedEventArgs e) =>
             {
-                tcs.SetResult(e.Reply);
+                tcs.SetResult(new PingRequestReply(address, e.Reply));
             };
             ping.SendAsync(address, new object());
             return tcs.Task;
