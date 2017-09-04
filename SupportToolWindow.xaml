@@ -17,7 +17,12 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Menu x:Name="menu" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,0,0,0" Padding="5,0" VerticalAlignment="Top" Width="700" Background="White">
+        <Menu x:Name="menu" Grid.ColumnSpan="2" Margin="0,0,0,0" Padding="5,0" VerticalAlignment="Top" Width="670" Background="White">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
             <MenuItem Header="Open" Padding="5" BorderThickness="0">
                 <MenuItem x:Name="OpenDreadnoughtInstallationDirectory" Header="Dreadnought Folder" Click="OpenDreadnoughtInstallationDirectory_Click">
                     <MenuItem.Icon>
@@ -37,6 +42,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem HorizontalAlignment="Right" Header="Ping: Unknown" IsEnabled="False" Name="DisplayPing" />
         </Menu>
         <TextBox Grid.Row="1" Grid.ColumnSpan="2" x:Name="ExecutionOutput" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="240" BorderBrush="LightGray" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="660" />
 

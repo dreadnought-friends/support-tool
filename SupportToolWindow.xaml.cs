@@ -2,6 +2,7 @@
 using SupportTool.Command;
 using SupportTool.Dreadnought;
 using SupportTool.Logger;
+using SupportTool.Ping;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -22,7 +25,8 @@ namespace SupportTool
         private Config config;
         private FileAggregator fileAggregator;
         private List<CommandInterface> commands = new List<CommandInterface>();
-        private BackgroundWorker backgroundWorker = new BackgroundWorker();
+        private BackgroundWorker CommandWorker = new BackgroundWorker();
+        private BackgroundWorker PingWorker = new BackgroundWorker();
         private TextBoxLogger textBoxLogger;
         private Runner runner;
         private ChangeInstallationDirectory changeInstallationDirectory;
@@ -35,13 +39,17 @@ namespace SupportTool
             string version = String.Format("{0}.{1}.{2}", versionInfo.Major, versionInfo.Minor, versionInfo.Build);
 
             Title = String.Format("{0} - {1}", Title, version);
+            
+            CommandWorker.WorkerReportsProgress = true;
+            CommandWorker.WorkerSupportsCancellation = true;
+            CommandWorker.DoWork += new DoWorkEventHandler(StartAggregateData);
+            CommandWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishAggregateData);
+            CommandWorker.ProgressChanged += new ProgressChangedEventHandler(ReportAggregateData);
 
-            backgroundWorker.WorkerSupportsCancellation = true;
-            backgroundWorker.WorkerReportsProgress = true;
-            backgroundWorker.WorkerSupportsCancellation = true;
-            backgroundWorker.DoWork += new DoWorkEventHandler(StartAggregateData);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishAggregateData);
-            backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(WorkerProgressChanged);
+            PingWorker.WorkerReportsProgress = true;
+            PingWorker.WorkerSupportsCancellation = true;
+            PingWorker.DoWork += new DoWorkEventHandler(StartPing);
+            PingWorker.ProgressChanged += new ProgressChangedEventHandler(ReportPing);
 
             string home = Environment.GetEnvironmentVariable("userprofile");
 
@@ -71,7 +79,7 @@ namespace SupportTool
 
             VersionChecker versionChecker = new VersionChecker(config);
 
-            BackgroundReportLogger backgroundReportLogger = new BackgroundReportLogger(config, inMemoryLogger, backgroundWorker);
+            BackgroundReportLogger backgroundReportLogger = new BackgroundReportLogger(config, inMemoryLogger, CommandWorker);
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
@@ -112,6 +120,41 @@ namespace SupportTool
                 ChangeInstallationDirectory.IsEnabled = false;
                 ChangeInstallationDirectory.Header += " (Restart as Admin)";
             }
+
+            RunPings();
+        }
+
+        private async Task RunPings()
+        {
+            while (true)
+            {
+                if (!PingWorker.IsBusy)
+                {
+                    PingWorker.RunWorkerAsync();
+                }
+                
+                await Task.Delay(6000);
+            }
+        }
+
+        private void StartPing(object sender, DoWorkEventArgs e)
+        {
+            List<PingResult> replies = Pinger.PingHosts("172.86.100.9");
+
+            PingWorker.ReportProgress(1, replies[0]);
+        }
+
+        private void ReportPing(object sender, ProgressChangedEventArgs e)
+        {
+            var pingResult = (PingResult)e.UserState;
+            
+            if (pingResult.Successful)
+            {
+                DisplayPing.Header = String.Format("Ping: {0}ms", pingResult.AveragePing);
+                return;
+            }
+
+            DisplayPing.Header = "Ping: Unknown";
         }
 
         private void StartAggregateData(object sender, DoWorkEventArgs e)
@@ -134,7 +177,7 @@ namespace SupportTool
             OpenAggregatedFiles.IsEnabled = true;
         }
 
-        private void WorkerProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void ReportAggregateData(object sender, ProgressChangedEventArgs e)
         {
             ExecutionOutput.AppendText(e.UserState.ToString() + Environment.NewLine);
             ExecutionOutput.ScrollToEnd();
@@ -155,7 +198,7 @@ namespace SupportTool
             // ensure a clean text field if generating again
             ExecutionOutput.Clear();
 
-            backgroundWorker.RunWorkerAsync();
+            CommandWorker.RunWorkerAsync();
         }
 
         private void OpenAggregatedFiles_Click(object sender, RoutedEventArgs e)

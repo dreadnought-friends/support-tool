@@ -9,14 +9,19 @@ namespace SupportTool.Ping
 {
     class Pinger
     {
-        public static List<PingResult> PingHosts(List<string> hosts, int bufferSizeInBytes = 32)
+        public static List<PingResult> PingHosts(string host, int bufferSizeInBytes = 32, int totalPings = 4)
+        {
+            return PingHosts(new List<string> { host }, bufferSizeInBytes, totalPings);
+        }
+
+        public static List<PingResult> PingHosts(List<string> hosts, int bufferSizeInBytes = 32, int totalPings = 4)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(new string('a', bufferSizeInBytes));
 
             Dictionary<string, List<PingReply>> sortedResults = new Dictionary<string, List<PingReply>>();
 
             // sort per IP
-            foreach (PingRequestReply reply in PingAsync(hosts, buffer))
+            foreach (PingRequestReply reply in PingAsync(hosts, buffer, totalPings))
             {
                 List<PingReply> item;
                 string host = reply.OriginalHost;
@@ -63,11 +68,11 @@ namespace SupportTool.Ping
             return pingResults;
         }
 
-        private static List<PingRequestReply> PingAsync(List<string> hosts, byte[] buffer)
+        private static List<PingRequestReply> PingAsync(List<string> hosts, byte[] buffer, int totalPings = 4)
         {
             List<string> repeatedHosts = new List<string>();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < totalPings; i++)
             {
                 repeatedHosts.AddRange(hosts);
             }
