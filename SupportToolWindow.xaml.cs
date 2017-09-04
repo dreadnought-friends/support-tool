@@ -138,8 +138,8 @@ namespace SupportTool
         }
 
         private void StartPing(object sender, DoWorkEventArgs e)
-        {
-            List<PingResult> replies = Pinger.PingHosts("172.86.100.9");
+        { 
+            List<PingResult> replies = Pinger.PingHosts("172.86.100.9", 32, 1);
 
             PingWorker.ReportProgress(1, replies[0]);
         }
