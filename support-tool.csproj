@@ -90,6 +90,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CommandContainer.cs" />
     <Compile Include="Command\CustomerSupportReadme.cs" />
     <Compile Include="Command\Archiver.cs" />
     <Compile Include="Command\DreadnoughtCrashDumps.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Dreadnought\Installation.cs" />
     <Compile Include="Dreadnought\InstallationFinder.cs" />
     <Compile Include="Dreadnought\InstallationFixer.cs" />
+    <Compile Include="CommandCheckBoxInterface.cs" />
     <Compile Include="Logger\BackgroundReportLogger.cs" />
     <Compile Include="Logger\InMemoryLogger.cs" />
     <Compile Include="CommandInterface.cs" />

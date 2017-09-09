@@ -4,8 +4,26 @@ using System.Linq;
 
 namespace SupportTool.Command
 {
-    class DreadnoughtCrashDumps : CommandInterface
+    class DreadnoughtCrashDumps : CommandInterface, CommandCheckBoxInterface
     {
+        public string ConfigPropertyPath
+        {
+            get
+            {
+                return "IncludeDreadnoughtCrashDumps";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return "Crash reports";
+            }
+        }
+
+        public string ToolTip { get; }
+
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeDreadnoughtCrashDumps)

@@ -10,7 +10,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
@@ -24,7 +23,7 @@ namespace SupportTool
     {
         private Config config;
         private FileAggregator fileAggregator;
-        private List<CommandInterface> commands = new List<CommandInterface>();
+        private CommandContainer commandContainer;
         private BackgroundWorker CommandWorker = new BackgroundWorker();
         private BackgroundWorker PingWorker = new BackgroundWorker();
         private TextBoxLogger textBoxLogger;
@@ -83,18 +82,19 @@ namespace SupportTool
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
-            commands.Add(new TempDirectoryPreparation());
-            commands.Add(new HostDeveloper());
-            commands.Add(new CustomerSupportReadme());
-            commands.Add(new DxDiag());
-            commands.Add(new MsInfo());
-            commands.Add(new Connection());
-            commands.Add(new DreadnoughtLogs());
-            commands.Add(new DreadnoughtCrashDumps());
-            commands.Add(new AggregatedFileCollector());
-            commands.Add(new Archiver());
+            commandContainer = new CommandContainer(config, ConfigurationOptions);
 
-            ConfigurationOptions.DataContext = config;
+            commandContainer.Add(new TempDirectoryPreparation());
+            commandContainer.Add(new HostDeveloper());
+            commandContainer.Add(new CustomerSupportReadme());
+            commandContainer.Add(new DxDiag());
+            commandContainer.Add(new MsInfo());
+            commandContainer.Add(new Connection());
+            commandContainer.Add(new DreadnoughtLogs());
+            commandContainer.Add(new DreadnoughtCrashDumps());
+            commandContainer.Add(new AggregatedFileCollector());
+            commandContainer.Add(new Archiver());
+            
             DownloadNewVersionText.Text = "";
 
             try
@@ -160,21 +160,13 @@ namespace SupportTool
         private void StartAggregateData(object sender, DoWorkEventArgs e)
         {
             textBoxLogger.Clear();
-
-            runner.Run(commands);
+            runner.Run(commandContainer.Commands);
         }
 
         private void FinishAggregateData(object sender, RunWorkerCompletedEventArgs e)
         {
-            SettingDxDiag.IsEnabled = true;
-            SettingMsInfo.IsEnabled = true;
-            SettingConnection.IsEnabled = true;
-            SettingLogFiles.IsEnabled = true;
-            SettingCrashDumps.IsEnabled = true;
-            SettingArchive.IsEnabled = true;
-            SettingHostDeveloper.IsEnabled = true;
             StartAggregation.IsEnabled = true;
-            OpenAggregatedFiles.IsEnabled = true;
+            commandContainer.Enable();
         }
 
         private void ReportAggregateData(object sender, ProgressChangedEventArgs e)
@@ -185,19 +177,9 @@ namespace SupportTool
 
         private void StartAggregation_Click(object sender, RoutedEventArgs e)
         {
-            SettingDxDiag.IsEnabled = false;
-            SettingMsInfo.IsEnabled = false;
-            SettingConnection.IsEnabled = false;
-            SettingLogFiles.IsEnabled = false;
-            SettingCrashDumps.IsEnabled = false;
-            SettingArchive.IsEnabled = false;
-            SettingHostDeveloper.IsEnabled = false;
-            StartAggregation.IsEnabled = false;
-            OpenAggregatedFiles.IsEnabled = false;
-
-            // ensure a clean text field if generating again
             ExecutionOutput.Clear();
-
+            commandContainer.Disable();
+            StartAggregation.IsEnabled = false;
             CommandWorker.RunWorkerAsync();
         }
 

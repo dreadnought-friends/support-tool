@@ -5,9 +5,33 @@ using System.Threading;
 
 namespace SupportTool.Command
 {
-    class HostDeveloper : CommandInterface
+    class HostDeveloper : CommandInterface, CommandCheckBoxInterface
     {
         private const string DeveloperFile = "host.developer.log";
+
+        public string ConfigPropertyPath
+        {
+            get
+            {
+                return "IncludeHostDeveloper";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return "Launcher debug information";
+            }
+        }
+
+        public string ToolTip
+        {
+            get
+            {
+                return "Tthe launcher will start in debug mode which may require you to give permissions for administrator privileges. It might take roughly 30 seconds or more for this to show.";
+            }
+        }
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {

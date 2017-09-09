@@ -3,8 +3,26 @@ using System.IO;
 
 namespace SupportTool.Command
 {
-    class MsInfo : CommandInterface
+    class MsInfo : CommandInterface, CommandCheckBoxInterface
     {
+        public string ConfigPropertyPath
+        {
+            get
+            {
+                return "IncludeMsInfo";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return "MSInfo32";
+            }
+        }
+
+        public string ToolTip { get; }
+
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeMsInfo)

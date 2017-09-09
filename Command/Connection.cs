@@ -7,8 +7,32 @@ using System.Linq;
 
 namespace SupportTool.Command
 {
-    class Connection : CommandInterface
+    class Connection : CommandInterface, CommandCheckBoxInterface
     {
+        public string ConfigPropertyPath
+        {
+            get
+            {
+                return "IncludeConnection";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return "Connection info to game servers";
+            }
+        }
+
+        public string ToolTip
+        {
+            get
+            {
+                return "A ping and traceroute will be executed for several IP addresses. Depending on how fast your connection to the server is at moment, it might take a while.";
+            }
+        }
+
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeConnection)

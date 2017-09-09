@@ -1,10 +1,29 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 
 namespace SupportTool.Command
 {
-    class Archiver : CommandInterface
+    class Archiver : CommandInterface, CommandCheckBoxInterface
     {
+        public string ConfigPropertyPath
+        {
+            get
+            {
+                return "CreateZipArchive";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return "Create Zip Archive";
+            }
+        }
+
+        public string ToolTip { get; }
+
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.CreateZipArchive)

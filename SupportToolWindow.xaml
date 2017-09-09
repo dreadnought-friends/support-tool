@@ -59,25 +59,6 @@
                 <Label x:Name="LabelSettings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,0,0,0">
                     <Run FontWeight="Bold" Text="Settings"/>
                 </Label>
-                <CheckBox x:Name="SettingDxDiag" Margin="3,3,0,0" Content="Include DxDiag" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDxDiag, Mode=TwoWay}"/>
-                <CheckBox x:Name="SettingMsInfo" Margin="3,3,0,0" Content="Include MsInfo32" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeMsInfo, Mode=TwoWay}" />
-                <CheckBox x:Name="SettingConnection" Margin="3,3,0,0" Content="Include connection info" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeConnection, Mode=TwoWay}">
-                    <CheckBox.ToolTip>
-                        <TextBlock TextWrapping="Wrap" Width="300">
-                            A ping and traceroute will be executed for several IP addresses. Depending on how fast your connection to the server is at moment, it might take a while.
-                        </TextBlock>
-                    </CheckBox.ToolTip>
-                </CheckBox>
-                <CheckBox x:Name="SettingLogFiles" Margin="3,3,0,0" Content="Include Dreadnought log files" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtLogs, Mode=TwoWay}" />
-                <CheckBox x:Name="SettingHostDeveloper" Margin="3,3,0,0" Content="Include host developer debug file" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeHostDeveloper, Mode=TwoWay}" ToolTipService.InitialShowDelay="0" ToolTipService.ShowDuration="30000">
-                    <CheckBox.ToolTip>
-                        <TextBlock TextWrapping="Wrap" Width="300">
-                            To generate this file, the launcher will be started in debug mode which may require you to give permissions to start under administrator privileges. It might take roughly 30 seconds or more for this to show.
-                        </TextBlock>
-                    </CheckBox.ToolTip>
-                </CheckBox>
-                <CheckBox x:Name="SettingCrashDumps" Margin="3,3,0,0" Content="Include Dreadnought crash dumps" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding IncludeDreadnoughtCrashDumps, Mode=TwoWay}" />
-                <CheckBox x:Name="SettingArchive" Margin="3,3,0,0" Content="Create ZIP archive" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding CreateZipArchive, Mode=TwoWay}" />
             </StackPanel>
             <Button x:Name="StartAggregation" Grid.Row="1" Content="Collect Selected Information" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>
             <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">

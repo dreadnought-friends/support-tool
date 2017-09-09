@@ -3,8 +3,26 @@ using System.IO;
 
 namespace SupportTool.Command
 {
-    class DxDiag : CommandInterface
+    class DxDiag : CommandInterface, CommandCheckBoxInterface
     {
+        public string ConfigPropertyPath
+        {
+            get
+            {
+                return "IncludeDxDiag";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return "DxDiag";
+            }
+        }
+
+        public string ToolTip { get; }
+
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeDxDiag)

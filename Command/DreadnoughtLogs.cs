@@ -1,11 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace SupportTool.Command
 {
-    class DreadnoughtLogs : CommandInterface
+    class DreadnoughtLogs : CommandInterface, CommandCheckBoxInterface
     {
+        public string ConfigPropertyPath
+        {
+            get
+            {
+                return "IncludeDreadnoughtLogs";
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return "Game logs";
+            }
+        }
+
+        public string ToolTip { get; }
+
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
             if (!config.IncludeDreadnoughtLogs)
