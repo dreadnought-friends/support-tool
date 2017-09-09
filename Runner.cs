@@ -28,6 +28,19 @@ namespace SupportTool
                     return;
                 }
 
+                if (command is CommandCheckBoxInterface)
+                {
+                    CommandCheckBoxInterface excludable = (CommandCheckBoxInterface)command;
+
+                    bool shouldRun = (bool)config.GetType().GetProperty(excludable.ConfigPropertyPath).GetValue(config);
+
+                    if (!shouldRun)
+                    {
+                        logger.Log("Skipping "+excludable.Text);
+                        continue;
+                    }
+                }
+
                 try
                 {
                     command.Execute(config, fileAggregator, logger, propagation);

@@ -31,12 +31,6 @@ namespace SupportTool.Command
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
-            if (!config.IncludeDxDiag)
-            {
-                logger.Log("Skipping DxDiag Dump");
-                return;
-            }
-
             logger.Log("Generating DxDiag dump");
 
             FileInfo reportFile = fileAggregator.AddVirtualFile("dxdiag.txt");

@@ -57,7 +57,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical" Name="ConfigurationOptions" Grid.ColumnSpan="2">
                 <Label x:Name="LabelSettings" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,0,0,0">
-                    <Run FontWeight="Bold" Text="Settings"/>
+                    <Run FontWeight="Bold" Text="Things to collect"/>
                 </Label>
             </StackPanel>
             <Button x:Name="StartAggregation" Grid.Row="1" Content="Collect Selected Information" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>

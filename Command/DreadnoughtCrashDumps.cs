@@ -33,12 +33,6 @@ namespace SupportTool.Command
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
-            if (!config.IncludeDreadnoughtCrashDumps)
-            {
-                logger.Log("Skipping Dreadnought crash dumps");
-                return;
-            }
-
             logger.Log("Gathering Dreadnought crash dumps");
 
             List<DirectoryInfo> directories = Directory.GetDirectories(config.LogFileLocation)

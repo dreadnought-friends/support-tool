@@ -35,12 +35,6 @@ namespace SupportTool.Command
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
-            if (!config.IncludeHostDeveloper)
-            {
-                logger.Log("Skipping host.developer Dump");
-                return;
-            }
-
             if (null == config.DnInstallationDirectory)
             {
                 logger.Log("Skipping host.developer Dump, unable to detect where Dreadnought is installed (Hint: try Tools > Change Installation Directory)");

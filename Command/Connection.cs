@@ -35,12 +35,6 @@ namespace SupportTool.Command
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
-            if (!config.IncludeConnection)
-            {
-                logger.Log("Skipping connection information to the Dreadnought servers");
-                return;
-            }
-
             List<FileInfo> files = Directory.GetFiles(config.LogFileLocation)
                 .Select(x => new FileInfo(x))
                 .ToList();

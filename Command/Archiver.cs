@@ -31,12 +31,6 @@ namespace SupportTool.Command
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
-            if (!config.CreateZipArchive)
-            {
-                logger.Log("Skipping archiving");
-                return;
-            }
-
             if (!config.CanCreateArchive)
             {
                 logger.Log("Skipping archiving, nothing selected to archive");

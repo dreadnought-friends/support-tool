@@ -34,12 +34,6 @@ namespace SupportTool.Command
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {
-            if (!config.IncludeDreadnoughtLogs)
-            {
-                logger.Log("Skipping Dreadnought logs");
-                return;
-            }
-
             logger.Log("Gathering Dreadnought game logs");
 
             List<FileInfo> files = Directory.GetFiles(config.LogFileLocation)
