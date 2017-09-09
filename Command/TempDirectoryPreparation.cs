@@ -11,12 +11,12 @@ namespace SupportTool.Command
 
             if (!tempDir.Exists)
             {
-                logger.Log(string.Format("Created {0}", fileAggregator.TempDir));
+                logger.Debug(string.Format("Created {0}", fileAggregator.TempDir));
                 Directory.CreateDirectory(fileAggregator.TempDir);
                 return;
             }
 
-            logger.Log(string.Format("Cleaning up old files in {0}", fileAggregator.TempDir));
+            logger.Debug(string.Format("Cleaning up old files in {0}", fileAggregator.TempDir));
 
             foreach (FileInfo file in tempDir.GetFiles())
             {

@@ -15,5 +15,12 @@ namespace SupportTool.Logger
         {
             Queue.Clear();
         }
+        
+        public void Debug(string message)
+        {
+#if DEBUG
+            Log(LoggingFormatter.FormatDebug(message));
+#endif
+        }
     }
 }

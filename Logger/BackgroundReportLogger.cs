@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace SupportTool.Logger
 {
@@ -39,6 +40,13 @@ namespace SupportTool.Logger
         {
             // cannot clear anything in here, can only propagate the clear
             Inner.Clear(); 
+        }
+        
+        public void Debug(string message)
+        {
+#if DEBUG
+            Log(LoggingFormatter.FormatDebug(message));
+#endif
         }
     }
 }

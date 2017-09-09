@@ -33,5 +33,12 @@ namespace SupportTool.Logger
             TextBox.AppendText(message + Environment.NewLine);
             TextBox.ScrollToEnd();
         }
+
+        public void Debug(string message)
+        {
+#if DEBUG
+            Log(LoggingFormatter.FormatDebug(message));
+#endif
+        }
     }
 }

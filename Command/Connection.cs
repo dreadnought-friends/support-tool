@@ -64,8 +64,8 @@ namespace SupportTool.Command
             }
             catch (Exception)
             {
-                propagation.ShouldStop = true;
                 logger.Log("Pinging the servers failed, please check your connection.");
+                propagation.ShouldStop = true;
             }
         }
 

@@ -43,7 +43,7 @@ namespace SupportTool.Command
 
             if (file.Exists)
             {
-                logger.Log(string.Format("Deleting old zip file {0}", zipFile));
+                logger.Debug(string.Format("Deleting old zip file {0}", zipFile));
                 file.Delete();
             }
 
@@ -57,7 +57,7 @@ namespace SupportTool.Command
                 return;
             }
 
-            logger.Log(string.Format("Creating {0}", zipFile));
+            logger.Debug(string.Format("Creating {0}", zipFile));
             ZipFile.CreateFromDirectory(fileAggregator.TempDir, Path.Combine(config.ZipFileLocation, config.ZipFileName));
 
             logger.Log("Done! On your desktop you will have a file called 'DN_Support.zip' which you can attach to your support ticket or reply.");

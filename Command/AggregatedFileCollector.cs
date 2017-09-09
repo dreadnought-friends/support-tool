@@ -23,7 +23,7 @@ namespace SupportTool.Command
                     return;
                 }
 
-                logger.Log(file.To.FullName);
+                logger.Debug(file.To.FullName);
             }
         }
     }
