@@ -7,8 +7,7 @@ Support.
 ## Using the Tool
 There's no need for an installation. The tool can be ran on windows by
 downloading the latest executable from the [releases page](https://github.com/dreadnought-friends/support-tool/releases).
-When downloaded, extract the archive and run the executable. Then you can
-select which files support wants you to generate and you're done in no time!
+When downloaded you can run the executable to collect the data that CS needs.
 
 ## Support
 For bugs, issues or feature suggestions, you can
