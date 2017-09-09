@@ -62,6 +62,7 @@ namespace SupportTool
             config = new Config(
                 version,
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"DreadGame\Saved\Logs"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"DreadGame\Saved\Config\WindowsNoEditor"),
                 Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 "DN_Support.zip",
                 "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.xml",
@@ -91,6 +92,7 @@ namespace SupportTool
             commandContainer.Add(new MsInfo());
             commandContainer.Add(new Connection());
             commandContainer.Add(new DreadnoughtLogs());
+            commandContainer.Add(new DreadnoughtSettings());
             commandContainer.Add(new DreadnoughtCrashDumps());
             commandContainer.Add(new AggregatedFileCollector());
             commandContainer.Add(new Archiver());

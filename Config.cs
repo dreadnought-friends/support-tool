@@ -20,6 +20,7 @@ namespace SupportTool
             }
         }
         public string LogFileLocation { get; private set; }
+        public string DreadnoughtSettingsLocation { get; private set; }
         public string ZipFileLocation { get; private set; }
         public string ZipFileName { get; private set; }
         public string VersionInfoFileUrl { get; private set; }
@@ -34,16 +35,18 @@ namespace SupportTool
         public bool IncludeDreadnoughtLogs { get; set; } = true;
         public bool IncludeHostDeveloper { get; set; } = true;
         public bool IncludeDreadnoughtCrashDumps { get; set; } = true;
+        public bool IncludeDreadnoughtSettings { get; set; } = true;
 
         public bool CanCreateArchive
         {
-            get { return IncludeDreadnoughtLogs || IncludeDreadnoughtCrashDumps || IncludeConnection || IncludeDxDiag || IncludeMsInfo || IncludeHostDeveloper; }
+            get { return IncludeDreadnoughtLogs || IncludeDreadnoughtCrashDumps || IncludeDreadnoughtSettings || IncludeConnection || IncludeDxDiag || IncludeMsInfo || IncludeHostDeveloper; }
         }
 
-        public Config(string version, string logFileLocation, string zipFileLocation, string zipFileName, string versionInfoFileUrl, bool isElevated)
+        public Config(string version, string logFileLocation, string dreadnoughtSettingsLocation, string zipFileLocation, string zipFileName, string versionInfoFileUrl, bool isElevated)
         {
             Version = version;
             LogFileLocation = logFileLocation;
+            DreadnoughtSettingsLocation = dreadnoughtSettingsLocation;
             ZipFileLocation = zipFileLocation;
             ZipFileName = zipFileName;
             VersionInfoFileUrl = versionInfoFileUrl;

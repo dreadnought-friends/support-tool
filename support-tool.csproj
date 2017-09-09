@@ -95,6 +95,7 @@
     <Compile Include="Command\Archiver.cs" />
     <Compile Include="Command\DreadnoughtCrashDumps.cs" />
     <Compile Include="Command\Connection.cs" />
+    <Compile Include="Command\DreadnoughtSettings.cs" />
     <Compile Include="Command\TempDirectoryPreparation.cs" />
     <Compile Include="Command\DreadnoughtLogs.cs" />
     <Compile Include="Command\DxDiag.cs" />
