@@ -133,7 +133,7 @@ namespace SupportTool
                     PingWorker.RunWorkerAsync();
                 }
                 
-                await Task.Delay(6000);
+                await Task.Delay(2000);
             }
         }
 
