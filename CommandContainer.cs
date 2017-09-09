@@ -99,6 +99,7 @@ namespace SupportTool
                     {
                         Text = elementAware.ToolTip,
                         MaxWidth = 300,
+                        TextWrapping = TextWrapping.Wrap,
                     }
                 };
             }

@@ -29,7 +29,7 @@ namespace SupportTool.Command
         {
             get
             {
-                return "Tthe launcher will start in debug mode which may require you to give permissions for administrator privileges. It might take roughly 30 seconds or more for this to show.";
+                return "Starts the launcher in debug mode, needs admin privileges.";
             }
         }
 

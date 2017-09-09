@@ -23,7 +23,14 @@ namespace SupportTool.Command
             }
         }
 
-        public string ToolTip { get; }
+
+        public string ToolTip
+        {
+            get
+            {
+                return "Collects the most recent game logs.";
+            }
+        }
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {

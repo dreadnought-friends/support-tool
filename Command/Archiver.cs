@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 
 namespace SupportTool.Command
@@ -22,7 +21,13 @@ namespace SupportTool.Command
             }
         }
 
-        public string ToolTip { get; }
+        public string ToolTip
+        {
+            get
+            {
+                return "Creates a ZIP file in which all collected files are present.";
+            }
+        }
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {

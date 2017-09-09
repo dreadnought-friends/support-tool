@@ -22,7 +22,14 @@ namespace SupportTool.Command
             }
         }
 
-        public string ToolTip { get; }
+
+        public string ToolTip
+        {
+            get
+            {
+                return "Collects crash reports, which can be used for debugging information.";
+            }
+        }
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {

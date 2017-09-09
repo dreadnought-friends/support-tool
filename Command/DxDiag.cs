@@ -21,7 +21,13 @@ namespace SupportTool.Command
             }
         }
 
-        public string ToolTip { get; }
+        public string ToolTip
+        {
+            get
+            {
+                return "Runs DxDiag to gather useful system information.";
+            }
+        }
 
         public void Execute(Config config, FileAggregator fileAggregator, LoggerInterface logger, Propagation propagation)
         {

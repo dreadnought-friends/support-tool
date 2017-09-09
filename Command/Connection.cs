@@ -29,7 +29,7 @@ namespace SupportTool.Command
         {
             get
             {
-                return "A ping and traceroute will be executed for several IP addresses. Depending on how fast your connection to the server is at moment, it might take a while.";
+                return "Pings several game servers and creates a traceroute.";
             }
         }
 
