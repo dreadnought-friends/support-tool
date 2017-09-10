@@ -17,7 +17,7 @@ namespace SupportTool.Command
         {
             get
             {
-                return "Create Zip Archive";
+                return "Create zip archive";
             }
         }
 

@@ -42,6 +42,14 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Help" Padding="5" BorderThickness="0">
+                <MenuItem x:Name="OpenDocumentation" Header="Open Documentation" Click="OpenDocumentation_Click">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/external.ico"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="ShowMessageOfTheDay" Header="Show Message of the Day" Click="ShowMessageOfTheDay_Click" />
+            </MenuItem>
             <MenuItem HorizontalAlignment="Right" Header="Ping: Unknown" IsEnabled="False" Name="DisplayPing" />
         </Menu>
         <TextBox Grid.Row="1" Grid.ColumnSpan="2" x:Name="ExecutionOutput" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="230" BorderBrush="LightGray" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="660" />

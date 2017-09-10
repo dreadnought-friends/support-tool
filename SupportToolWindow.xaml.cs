@@ -22,6 +22,7 @@ namespace SupportTool
     public partial class SupportToolWindow : Window
     {
         private Config config;
+        VersionChecker versionChecker;
         private FileAggregator fileAggregator;
         private CommandContainer commandContainer;
         private BackgroundWorker CommandWorker = new BackgroundWorker();
@@ -77,7 +78,7 @@ namespace SupportTool
             textBoxLogger = new TextBoxLogger(config, inMemoryLogger, ExecutionOutput);
             changeInstallationDirectory = new ChangeInstallationDirectory(textBoxLogger);
 
-            VersionChecker versionChecker = new VersionChecker(config);
+            versionChecker = new VersionChecker(config);
 
             BackgroundReportLogger backgroundReportLogger = new BackgroundReportLogger(config, inMemoryLogger, CommandWorker);
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
@@ -97,7 +98,20 @@ namespace SupportTool
             commandContainer.Add(new AggregatedFileCollector());
             commandContainer.Add(new Archiver());
             
+            if (!config.IsElevated)
+            {
+                ChangeInstallationDirectory.IsEnabled = false;
+                ChangeInstallationDirectory.Header += " (Restart as Admin)";
+            }
+
+            updateLatestInfo();
+            RunPings();
+        }
+
+        private void updateLatestInfo()
+        {
             DownloadNewVersionText.Text = "";
+            textBoxLogger.Clear();
 
             try
             {
@@ -116,14 +130,6 @@ namespace SupportTool
             {
                 textBoxLogger.Log(String.Format("Unable to check for a new version: {0}", e.Message));
             }
-
-            if (!config.IsElevated)
-            {
-                ChangeInstallationDirectory.IsEnabled = false;
-                ChangeInstallationDirectory.Header += " (Restart as Admin)";
-            }
-
-            RunPings();
         }
 
         private async Task RunPings()
@@ -161,7 +167,6 @@ namespace SupportTool
 
         private void StartAggregateData(object sender, DoWorkEventArgs e)
         {
-            textBoxLogger.Clear();
             runner.Run(commandContainer.Commands);
         }
 
@@ -179,7 +184,7 @@ namespace SupportTool
 
         private void StartAggregation_Click(object sender, RoutedEventArgs e)
         {
-            ExecutionOutput.Clear();
+            textBoxLogger.Clear();
             commandContainer.Disable();
             StartAggregation.IsEnabled = false;
             CommandWorker.RunWorkerAsync();
@@ -228,6 +233,16 @@ namespace SupportTool
             changeInstallationDirectory.Show();
             changeInstallationDirectory.Activate();
             changeInstallationDirectory.guessInputValue();
+        }
+
+        private void OpenDocumentation_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://github.com/dreadnought-friends/support-tool/wiki"));
+        }
+
+        private void ShowMessageOfTheDay_Click(object sender, RoutedEventArgs e)
+        {
+            updateLatestInfo();
         }
     }
 }

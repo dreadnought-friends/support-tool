@@ -9,6 +9,8 @@ There's no need for an installation. The tool can be ran on windows by
 downloading the latest executable from the [releases page](https://github.com/dreadnought-friends/support-tool/releases).
 When downloaded you can run the executable to collect the data that CS needs.
 
+For more information, please check out the [wiki for documentation](https://github.com/dreadnought-friends/support-tool/wiki).
+
 ## Support
 For bugs, issues or feature suggestions, you can
 [create a new issue](https://github.com/dreadnought-friends/support-tool/issues/new).

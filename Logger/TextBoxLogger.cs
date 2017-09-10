@@ -19,6 +19,7 @@ namespace SupportTool.Logger
         public void Clear()
         {
             Inner.Clear();
+            TextBox.Clear();
         }
 
         public void Log(string message)

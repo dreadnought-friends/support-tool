@@ -22,7 +22,6 @@ namespace SupportTool.Command
             }
         }
 
-
         public string ToolTip
         {
             get
