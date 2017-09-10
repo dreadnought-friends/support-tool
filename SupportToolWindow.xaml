@@ -44,7 +44,7 @@
             </MenuItem>
             <MenuItem HorizontalAlignment="Right" Header="Ping: Unknown" IsEnabled="False" Name="DisplayPing" />
         </Menu>
-        <TextBox Grid.Row="1" Grid.ColumnSpan="2" x:Name="ExecutionOutput" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="240" BorderBrush="LightGray" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="660" />
+        <TextBox Grid.Row="1" Grid.ColumnSpan="2" x:Name="ExecutionOutput" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Height="230" BorderBrush="LightGray" IsReadOnly="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Width="660" />
 
         <Grid Grid.Row="2" Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
@@ -60,14 +60,14 @@
                     <Run FontWeight="Bold" Text="Things to collect"/>
                 </Label>
             </StackPanel>
-            <Button x:Name="StartAggregation" Grid.Row="1" Content="Collect Selected Information" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="20"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="StartAggregation" Grid.Row="1" Content="Start Collecting" HorizontalAlignment="Left" Click="StartAggregation_Click" Padding="5,0,5,0" Height="21"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Hyperlink Name="DownloadNewVersionLink" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run Name="DownloadNewVersionText" Text="Version x.x.x is available!" />
                 </Hyperlink>
             </TextBlock>
         </Grid>
-        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Left" Height="209" Margin="20,10,0,0" VerticalAlignment="Top" Width="313">
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Left" Height="215" Margin="20,10,0,0" VerticalAlignment="Top" Width="313">
             <Label x:Name="LabelAbout" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Run FontWeight="Bold" Text="About"/>
             </Label>
@@ -78,9 +78,9 @@
             </Label>
 
             <TextBlock x:Name="TextBlockContact" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" Width="313"><Run Text=" - "/><Hyperlink NavigateUri="https://discord.gg/dreadnought" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Dreadnought Discord Server"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://github.com/dreadnought-friends/support-tool/issues" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Report a bug, issue or suggestion"/></Hyperlink><LineBreak/><Run Text=" - "/><Hyperlink NavigateUri="https://support.greybox.com/hc/en-us/requests/new" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="Create a ticket at support.greybox.com"/></Hyperlink><LineBreak/><LineBreak/></TextBlock>
-            <TextBlock x:Name="textBlockAuthor" TextWrapping="Wrap" Margin="0,10,0,0"><Span FontStyle="Italic">Author: Anyone</Span></TextBlock>
+            <TextBlock x:Name="textBlockAuthor" TextWrapping="Wrap" Margin="0,20,0,0"><Span FontStyle="Italic">Author: Anyone</Span></TextBlock>
         </StackPanel>
 
-        <Border BorderBrush="LightGray" BorderThickness="1,0,0,0" HorizontalAlignment="Left" Height="198" Grid.Row="2" VerticalAlignment="Top" Width="1" Grid.Column="1" Margin="0,10,0,0" />
+        <Border BorderBrush="LightGray" BorderThickness="1,0,0,0" HorizontalAlignment="Left" Height="208" Grid.Row="2" VerticalAlignment="Top" Width="1" Grid.Column="1" Margin="0,10,0,0" />
     </Grid>
 </Window>
