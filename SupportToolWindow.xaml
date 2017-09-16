@@ -35,13 +35,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Tools" Padding="5" BorderThickness="0">
-                <MenuItem x:Name="ChangeInstallationDirectory" Header="Change Installation Directory" Click="ChangeChangeInstallationDirectory_Click">
-                    <MenuItem.Icon>
-                        <Image Source="Assets/DreadGame.ico"></Image>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
+            <MenuItem Header="Tools" Name="ToolsMenuItem" Padding="5" BorderThickness="0" />
             <MenuItem Header="Help" Padding="5" BorderThickness="0">
                 <MenuItem x:Name="OpenDocumentation" Header="Open Documentation" Click="OpenDocumentation_Click">
                     <MenuItem.Icon>

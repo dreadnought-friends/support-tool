@@ -3,6 +3,8 @@ using SupportTool.Command;
 using SupportTool.Dreadnought;
 using SupportTool.Logger;
 using SupportTool.Ping;
+using SupportTool.Tool;
+using SupportTool.Tool.ChangeInstallationDirectory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,11 +27,11 @@ namespace SupportTool
         VersionChecker versionChecker;
         private FileAggregator fileAggregator;
         private CommandContainer commandContainer;
+        private ToolContainer toolContainer;
         private BackgroundWorker CommandWorker = new BackgroundWorker();
         private BackgroundWorker PingWorker = new BackgroundWorker();
         private TextBoxLogger textBoxLogger;
         private Runner runner;
-        private ChangeInstallationDirectory changeInstallationDirectory;
 
         public SupportToolWindow()
         {
@@ -76,10 +78,7 @@ namespace SupportTool
 
             InMemoryLogger inMemoryLogger = new InMemoryLogger();
             textBoxLogger = new TextBoxLogger(config, inMemoryLogger, ExecutionOutput);
-            changeInstallationDirectory = new ChangeInstallationDirectory(textBoxLogger);
-
             versionChecker = new VersionChecker(config);
-
             BackgroundReportLogger backgroundReportLogger = new BackgroundReportLogger(config, inMemoryLogger, CommandWorker);
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
@@ -97,13 +96,10 @@ namespace SupportTool
             commandContainer.Add(new DreadnoughtCrashDumps());
             commandContainer.Add(new AggregatedFileCollector());
             commandContainer.Add(new Archiver());
-            
-            if (!config.IsElevated)
-            {
-                ChangeInstallationDirectory.IsEnabled = false;
-                ChangeInstallationDirectory.Header += " (Restart as Admin)";
-            }
 
+            toolContainer = new ToolContainer(config, ToolsMenuItem);
+            toolContainer.RegisterTool(new Tool.ChangeInstallationDirectory.ToolData(textBoxLogger));
+            
             updateLatestInfo();
             RunPings();
         }
@@ -220,19 +216,6 @@ namespace SupportTool
                 UseShellExecute = true,
                 Verb = "Open"
             });
-        }
-
-        private void ChangeChangeInstallationDirectory_Click(object sender, RoutedEventArgs e)
-        {
-            if (changeInstallationDirectory.IsVisible)
-            {
-                changeInstallationDirectory.Activate();
-                return;
-            }
-
-            changeInstallationDirectory.Show();
-            changeInstallationDirectory.Activate();
-            changeInstallationDirectory.guessInputValue();
         }
 
         private void OpenDocumentation_Click(object sender, RoutedEventArgs e)

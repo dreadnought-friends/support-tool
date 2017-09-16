@@ -1,20 +1,20 @@
 ﻿using Microsoft.Win32;
-using SupportTool.Dreadnought.Exception;
+using SupportTool.Dreadnought;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SupportTool.Dreadnought
+namespace SupportTool.Tool.ChangeInstallationDirectory
 {
-    partial class ChangeInstallationDirectory : Window
+    partial class ToolWindow : Window
     {
-        private LoggerInterface logger;
+        private LoggerInterface Logger;
 
-        public ChangeInstallationDirectory(LoggerInterface logger)
+        public ToolWindow(LoggerInterface logger)
         {
-            this.logger = logger;
+            Logger = logger;
 
             InitializeComponent();
         }
@@ -52,12 +52,12 @@ namespace SupportTool.Dreadnought
             InstallationFixer.fixInstallationkey(InstallationInput.Text);
             InstallationFixer.fixUninstallLink(InstallationInput.Text);
 
-            this.logger.Log(String.Format("Installation directory set to {0}", InstallationFinder.findInRegistry()));
+            Logger.Log(String.Format("Installation directory set to {0}", InstallationFinder.findInRegistry()));
 
             Hide();
         }
 
-        public void guessInputValue()
+        public void GuessInputValue()
         {
             InstallationInput.TextChanged += InstallationInput_TextChanged;
 

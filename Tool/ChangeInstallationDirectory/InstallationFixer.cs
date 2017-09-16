@@ -1,7 +1,8 @@
 ﻿using Microsoft.Win32;
+using SupportTool.Dreadnought;
 using System.IO;
 
-namespace SupportTool.Dreadnought
+namespace SupportTool.Tool.ChangeInstallationDirectory
 {
     class InstallationFixer
     {

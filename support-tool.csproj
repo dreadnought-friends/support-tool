@@ -78,7 +78,10 @@
     </ApplicationDefinition>
     <Compile Include="AppVersion\XmlEntities.cs" />
     <Compile Include="AppVersion\VersionChecker.cs" />
-    <Page Include="Dreadnought\ChangeInstallationDirectory.xaml">
+    <Compile Include="Tool\ChangeInstallationDirectory\ToolData.cs" />
+    <Compile Include="Tool\ToolContainer.cs" />
+    <Compile Include="Tool\ToolInterface.cs" />
+    <Page Include="Tool\ChangeInstallationDirectory\ToolWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -104,12 +107,12 @@
     <Compile Include="Dreadnought\Exception\DreadnoughtShortcutNotFoundException.cs" />
     <Compile Include="Dreadnought\Exception\KeyNotFoundException.cs" />
     <Compile Include="Dreadnought\Exception\InvalidLocationException.cs" />
-    <Compile Include="Dreadnought\ChangeInstallationDirectory.xaml.cs">
-      <DependentUpon>ChangeInstallationDirectory.xaml</DependentUpon>
+    <Compile Include="Tool\ChangeInstallationDirectory\ToolWindow.xaml.cs">
+      <DependentUpon>ToolWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dreadnought\Installation.cs" />
     <Compile Include="Dreadnought\InstallationFinder.cs" />
-    <Compile Include="Dreadnought\InstallationFixer.cs" />
+    <Compile Include="Tool\ChangeInstallationDirectory\InstallationFixer.cs" />
     <Compile Include="CommandCheckBoxInterface.cs" />
     <Compile Include="Logger\BackgroundReportLogger.cs" />
     <Compile Include="Logger\InMemoryLogger.cs" />
@@ -203,6 +206,7 @@
   <ItemGroup>
     <Resource Include="Assets\external.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
