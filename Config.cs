@@ -2,7 +2,7 @@
 
 namespace SupportTool
 {
-    class Config
+    public class Config
     {
         public string Version { get; private set; }
         public string DnInstallationDirectory

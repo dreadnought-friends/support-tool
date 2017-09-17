@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SupportTool.Tool
@@ -41,6 +43,13 @@ namespace SupportTool.Tool
                 menuItem.Header += " (Requires Admin Permissions)";
             }
 
+            // ensures that the tool window doesn't close itself but merely hides.
+            tool.ToolWindow.Closing += new CancelEventHandler(delegate (object sender, CancelEventArgs e)
+            {
+                e.Cancel = true;
+                (sender as Window).Hide();
+            });
+
             menuItem.Click += delegate
             {
                 // in case the window is already visible, simply bring it to the foreground
@@ -54,7 +63,10 @@ namespace SupportTool.Tool
                 tool.ToolWindow.Activate();
 
                 // Anything the tool wants to do when the window becomes visible
-                tool.OnShow.Invoke();
+                if (null != tool.OnShow)
+                {
+                    tool.OnShow.Invoke();
+                }
             };
         }
     }

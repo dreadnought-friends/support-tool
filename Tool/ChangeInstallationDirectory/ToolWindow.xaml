@@ -22,10 +22,10 @@
         <Button x:Name="FindInstallationButton" Content="Select Installation" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Width="110" Height="20" Click="FindInstallationButton_Click" RenderTransformOrigin="0.464,-0.95"/>
         <StatusBar x:Name="statusBar" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" Width="387" Height="40" BorderThickness="0,1,0,0" Padding="10,5,10,5"  BorderBrush="LightGray">
             <StatusBarItem HorizontalAlignment="Center">
-                <Button x:Name="ApplyInstallationDirectory" Content="Save Changes" Width="100" Height="20" Click="ApplyInstallationDirectory_Click"/>
+                <Button x:Name="SaveChanges" Content="Save Changes" Width="100" Height="20" Click="SaveChanges_Click"/>
             </StatusBarItem>
         </StatusBar>
         <TextBlock x:Name="Instructions" Margin="10,10,0,0" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Navigate to your Dreadnought installation directory and select &quot;DreadnoughtLauncher.exe&quot;." VerticalAlignment="Top" Width="365" Height="37"/>
-        <TextBlock x:Name="Tip" Margin="10" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Saving changes will update the registry keys telling windows where Dreadnought is installed." VerticalAlignment="Top" Width="365" Height="37" FontStyle="Italic" TextDecorations="{x:Null}"/>
+        <TextBlock x:Name="Tip" Margin="10" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Saving changes will update the registry keys telling windows where Dreadnought is installed." VerticalAlignment="Top" Width="365" Height="37" FontStyle="Italic"/>
     </Grid>
 </Window>

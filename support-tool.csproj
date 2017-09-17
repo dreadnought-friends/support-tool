@@ -78,9 +78,20 @@
     </ApplicationDefinition>
     <Compile Include="AppVersion\XmlEntities.cs" />
     <Compile Include="AppVersion\VersionChecker.cs" />
+    <Compile Include="Tool\KeyboardSettings\ModulePreset.cs" />
+    <Compile Include="Tool\KeyboardSettings\ModulePresetConfiguration.cs" />
+    <Compile Include="Tool\KeyboardSettings\SettingFinder.cs" />
+    <Compile Include="Tool\KeyboardSettings\ToolData.cs" />
+    <Compile Include="Tool\KeyboardSettings\ToolWindow.xaml.cs">
+      <DependentUpon>ToolWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tool\ChangeInstallationDirectory\ToolData.cs" />
     <Compile Include="Tool\ToolContainer.cs" />
     <Compile Include="Tool\ToolInterface.cs" />
+    <Page Include="Tool\KeyboardSettings\ToolWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Tool\ChangeInstallationDirectory\ToolWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

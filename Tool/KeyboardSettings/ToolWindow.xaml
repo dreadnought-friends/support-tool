@@ -1,0 +1,64 @@
+﻿<Window x:Class="SupportTool.Tool.KeyboardSettings.ToolWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SupportTool.Tool.KeyboardSettings"
+        mc:Ignorable="d"
+        Title="Keyboard Settings" Height="217" Width="404" WindowStyle="ToolWindow" ResizeMode="CanMinimize" ShowInTaskbar="True" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" Width="190">
+            <GroupBox Header="Module Preset" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                <ComboBox x:Name="ModulePresetOptions" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Width="95" />
+            </GroupBox>
+            <TextBlock x:Name="Tip" FontStyle="Italic" Text="Make sure to close the game before making any changes." TextWrapping="Wrap" Margin="10" />
+            <TextBlock x:Name="Error" Foreground="Red" Text="No keybinds found. Save the keybinds in the Dreadnought client and try again." TextWrapping="Wrap" Margin="10" />
+        </StackPanel>
+
+        <StatusBar HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" Width="388" Height="40" BorderThickness="0,1,0,0" Padding="10,5,10,5"  BorderBrush="LightGray">
+            <StatusBarItem HorizontalAlignment="Center">
+                <Button x:Name="SaveChanges" Content="Save Changes" Width="100" Height="20" Click="SaveChanges_Click"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MinHeight="20"/>
+                <RowDefinition Height="Auto" MinHeight="20"/>
+                <RowDefinition Height="Auto" MinHeight="20"/>
+                <RowDefinition Height="Auto" MinHeight="20"/>
+                <RowDefinition Height="Auto" MinHeight="20"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="85"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0">
+                <Run FontWeight="Bold">Module Slot</Run>
+            </TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="1">
+                <Run FontWeight="Bold">Shortcut</Run>
+            </TextBlock>
+            <TextBlock Grid.Row="1">Primary</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="PrimaryModule"/>
+            <TextBlock Grid.Row="2">Secondary</TextBlock>
+            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="SecondaryModule"/>
+            <TextBlock Grid.Row="3">Perimeter</TextBlock>
+            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="PerimeterModule"/>
+            <TextBlock Grid.Row="4">Internal</TextBlock>
+            <TextBlock Grid.Row="4" Grid.Column="1" x:Name="InternalModule"/>
+        </Grid>
+    </Grid>
+</Window>

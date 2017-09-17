@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using SupportTool.Dreadnought;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +20,7 @@ namespace SupportTool.Tool.ChangeInstallationDirectory
 
         private void InstallationInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ApplyInstallationDirectory.IsEnabled = !InstallationInput.Text.Equals("");
+            SaveChanges.IsEnabled = !InstallationInput.Text.Equals("");
         }
 
         private void FindInstallationButton_Click(object sender, RoutedEventArgs e)
@@ -47,7 +46,7 @@ namespace SupportTool.Tool.ChangeInstallationDirectory
             }
         }
 
-        private void ApplyInstallationDirectory_Click(object sender, RoutedEventArgs e)
+        private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
             InstallationFixer.fixInstallationkey(InstallationInput.Text);
             InstallationFixer.fixUninstallLink(InstallationInput.Text);
@@ -80,12 +79,6 @@ namespace SupportTool.Tool.ChangeInstallationDirectory
             }
 
             InstallationInput.Text = installationDirectory;
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            e.Cancel = true;
-            Hide();
         }
     }
 }

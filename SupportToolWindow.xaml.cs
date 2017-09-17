@@ -1,10 +1,8 @@
 ﻿using SupportTool.AppVersion;
 using SupportTool.Command;
-using SupportTool.Dreadnought;
 using SupportTool.Logger;
 using SupportTool.Ping;
 using SupportTool.Tool;
-using SupportTool.Tool.ChangeInstallationDirectory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -98,8 +96,9 @@ namespace SupportTool
             commandContainer.Add(new Archiver());
 
             toolContainer = new ToolContainer(config, ToolsMenuItem);
+            toolContainer.RegisterTool(new Tool.KeyboardSettings.ToolData(config, textBoxLogger));
             toolContainer.RegisterTool(new Tool.ChangeInstallationDirectory.ToolData(textBoxLogger));
-            
+
             updateLatestInfo();
             RunPings();
         }
