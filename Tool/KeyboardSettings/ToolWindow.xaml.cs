@@ -21,12 +21,20 @@ namespace SupportTool.Tool.KeyboardSettings
             {
                 ComboBox comboBox = (ComboBox)sender;
                 
-                if (-1 == comboBox.SelectedIndex || comboBox.SelectedIndex > (Preset.Presets.Count - 1))
+                if (-1 == comboBox.SelectedIndex || comboBox.SelectedIndex > Preset.Presets.Count)
                 {
                     return;
                 }
 
+                if (comboBox.SelectedIndex == Preset.Presets.Count)
+                {
+                    ShowShortcutPreview(Preset.ActiveConfiguration);
+                    SaveChanges.IsEnabled = false;
+                    return;
+                }
+
                 ShowShortcutPreview(Preset.Presets[comboBox.SelectedIndex]);
+                SaveChanges.IsEnabled = true;
             });
         }
 
@@ -71,12 +79,11 @@ namespace SupportTool.Tool.KeyboardSettings
                 IsEnabled = false,
             });
 
-            List<ModulePresetConfiguration> presets = new List<ModulePresetConfiguration>() { current };
-            presets.AddRange(Preset.Presets);
-
+            List<ModulePresetConfiguration> presets = new List<ModulePresetConfiguration>(Preset.Presets) { current };
+            
             ShowShortcutPreview(presets[ModulePresetOptions.SelectedIndex]);
 
-            SaveChanges.IsEnabled = true;
+            SaveChanges.IsEnabled = current != presets[ModulePresetOptions.SelectedIndex];
             ModulePresetOptions.IsEnabled = true;
         }
 

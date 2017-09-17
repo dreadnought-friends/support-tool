@@ -44,8 +44,8 @@ namespace SupportTool.Tool.KeyboardSettings
             if (ReferenceEquals(presetA, null))
             {
                 return ReferenceEquals(presetB, null);
-
             }
+
             return presetA.Primary == presetB.Primary
                 && presetA.Secondary == presetB.Secondary
                 && presetA.Perimeter == presetB.Perimeter
