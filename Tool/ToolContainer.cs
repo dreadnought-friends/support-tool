@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SupportTool.Tool
 {
@@ -31,6 +32,9 @@ namespace SupportTool.Tool
                 menuItem.Icon = new Image()
                 {
                     Source = tool.MenuIcon,
+                    Stretch = Stretch.Fill,
+                    Width = 16,
+                    Height = 16,
                 };
             }
 

@@ -26,12 +26,12 @@
             <MenuItem Header="Open" Padding="5" BorderThickness="0">
                 <MenuItem x:Name="OpenDreadnoughtInstallationDirectory" Header="Dreadnought Folder" Click="OpenDreadnoughtInstallationDirectory_Click">
                     <MenuItem.Icon>
-                        <Image Source="Assets/Folder.png"></Image>
+                        <Image Source="Assets/Folder.png" Stretch="Fill" Width="16" Height="16"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="OpenAggregatedFiles" Header="Collected Files" Click="OpenAggregatedFiles_Click">
                     <MenuItem.Icon>
-                        <Image Source="Assets/Folder.png"></Image>
+                        <Image Source="Assets/Folder.png" Stretch="Fill" Width="16" Height="16"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -39,7 +39,7 @@
             <MenuItem Header="Help" Padding="5" BorderThickness="0">
                 <MenuItem x:Name="OpenDocumentation" Header="Open Documentation" Click="OpenDocumentation_Click">
                     <MenuItem.Icon>
-                        <Image Source="Assets/external.ico"></Image>
+                        <Image Source="Assets/external.ico" Stretch="Fill" Width="16" Height="16"></Image>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="ShowMessageOfTheDay" Header="Show Message of the Day" Click="ShowMessageOfTheDay_Click" />
