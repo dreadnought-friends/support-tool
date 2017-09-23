@@ -78,6 +78,7 @@
     </ApplicationDefinition>
     <Compile Include="AppVersion\XmlEntities.cs" />
     <Compile Include="AppVersion\VersionChecker.cs" />
+    <Compile Include="Ping\PingStorage.cs" />
     <Compile Include="Tool\KeyboardSettings\ModulePreset.cs" />
     <Compile Include="Tool\KeyboardSettings\ModulePresetConfiguration.cs" />
     <Compile Include="Tool\KeyboardSettings\SettingFinder.cs" />

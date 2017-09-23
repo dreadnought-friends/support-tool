@@ -4,7 +4,6 @@ using SupportTool.Logger;
 using SupportTool.Ping;
 using SupportTool.Tool;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -21,8 +20,10 @@ namespace SupportTool
     /// </summary>
     public partial class SupportToolWindow : Window
     {
+        private static readonly short PingDelay = 1000;
+
         private Config config;
-        VersionChecker versionChecker;
+        private VersionChecker versionChecker;
         private FileAggregator fileAggregator;
         private CommandContainer commandContainer;
         private ToolContainer toolContainer;
@@ -30,6 +31,7 @@ namespace SupportTool
         private BackgroundWorker PingWorker = new BackgroundWorker();
         private TextBoxLogger textBoxLogger;
         private Runner runner;
+        private PingStorage pingStorage = new PingStorage("172.86.100.9", 240, (byte) (PingDelay / 1000));
 
         public SupportToolWindow()
         {
@@ -136,21 +138,19 @@ namespace SupportTool
                     PingWorker.RunWorkerAsync();
                 }
                 
-                await Task.Delay(2000);
+                await Task.Delay(PingDelay);
             }
         }
 
         private void StartPing(object sender, DoWorkEventArgs e)
         { 
-            List<PingResult> replies = Pinger.PingHosts("172.86.100.9", 32, 1);
-
-            PingWorker.ReportProgress(1, replies[0]);
+            PingWorker.ReportProgress(1, pingStorage.ping());
         }
 
         private void ReportPing(object sender, ProgressChangedEventArgs e)
         {
             var pingResult = (PingResult)e.UserState;
-            
+
             if (pingResult.Successful)
             {
                 DisplayPing.Header = String.Format("Ping: {0}ms", pingResult.AveragePing);

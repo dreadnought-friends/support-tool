@@ -14,6 +14,11 @@ namespace SupportTool.Ping
             return PingHosts(new List<string> { host }, bufferSizeInBytes, totalPings);
         }
 
+        public static PingResult PingHosts(string host)
+        {
+            return PingHosts(new List<string> { host }, 32, 1).First();
+        }
+
         public static List<PingResult> PingHosts(List<string> hosts, int bufferSizeInBytes = 32, int totalPings = 4)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(new string('a', bufferSizeInBytes));
