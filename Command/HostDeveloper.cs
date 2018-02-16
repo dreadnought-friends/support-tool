@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -77,29 +78,40 @@ namespace SupportTool.Command
 
             Process process = new Process();
             process.EnableRaisingEvents = true;
-            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.UseShellExecute = true;
             process.StartInfo.FileName = launcherExecutable.FullName;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.Arguments = "/debug";
-            process.Start();
+            process.StartInfo.Verb = "runas";
 
-            // in case of administrator, no new process has to be started
-            if (!config.IsElevated)
+            try
             {
-                process.WaitForExit();
-                process.Close();
+                process.Start();
+            }
+            catch (Win32Exception e)
+            {
+                if (e.NativeErrorCode == 1223) // operation cancelled by user
+                {
+                    logger.Log("Skipping host.developer dump, this option requires administrative permissions.");
+                    propagation.ShouldStop = true;
+                    return;
+                }
+                else
+                {
+                    throw e;
+                }
             }
 
             DateTime firstWrite = hostDeveloperFile.Exists ? hostDeveloperFile.LastWriteTime : new DateTime();
 
-            Thread.Sleep(1500);
+            Thread.Sleep(3000);
 
             // have to manually poll, in program files it will not create the file
             // in any other directory, it will have write permissions and thus write
             // to the log file on the first run as well.
             while (hostDeveloperFile.LastWriteTime.CompareTo(firstWrite) < 1)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(2000);
                 hostDeveloperFile.Refresh();
             }
 
