@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupportTool.Dreadnought;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -74,15 +75,7 @@ namespace SupportTool.Command
                 logger.Log("A windows user account control popup will appear to run the Dreadnought launcher as administrator");
             }
                         
-            FileInfo reportFile = fileAggregator.AddExistingFile(hostDeveloperFile.FullName, DeveloperFile);
-
-            Process process = new Process();
-            process.EnableRaisingEvents = true;
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.FileName = launcherExecutable.FullName;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.Arguments = "/debug";
-            process.StartInfo.Verb = "runas";
+            Process process = DebugLauncher.CreateProcess(launcherExecutable.FullName);
 
             try
             {
@@ -93,7 +86,6 @@ namespace SupportTool.Command
                 if (e.NativeErrorCode == 1223) // operation cancelled by user
                 {
                     logger.Log("Skipping host.developer dump, this option requires administrative permissions.");
-                    propagation.ShouldStop = true;
                     return;
                 }
                 else
@@ -101,6 +93,8 @@ namespace SupportTool.Command
                     throw e;
                 }
             }
+
+            fileAggregator.AddExistingFile(hostDeveloperFile.FullName, DeveloperFile);
 
             DateTime firstWrite = hostDeveloperFile.Exists ? hostDeveloperFile.LastWriteTime : new DateTime();
 

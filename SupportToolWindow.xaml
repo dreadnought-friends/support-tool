@@ -24,6 +24,11 @@
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
             <MenuItem Header="Open" Padding="5" BorderThickness="0">
+                <MenuItem x:Name="RunDreadnoughtDebugLauncher" Header="Run Launcher in debug mode" Click="RunDreadnoughtDebugLauncher_Click">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/dreadgame.ico" Stretch="Fill" Width="16" Height="16"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="OpenDreadnoughtInstallationDirectory" Header="Dreadnought Folder" Click="OpenDreadnoughtInstallationDirectory_Click">
                     <MenuItem.Icon>
                         <Image Source="Assets/Folder.png" Stretch="Fill" Width="16" Height="16"></Image>

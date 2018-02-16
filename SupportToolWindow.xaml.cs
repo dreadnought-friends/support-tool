@@ -1,5 +1,6 @@
 ﻿using SupportTool.AppVersion;
 using SupportTool.Command;
+using SupportTool.Dreadnought;
 using SupportTool.Logger;
 using SupportTool.Ping;
 using SupportTool.Tool;
@@ -225,6 +226,32 @@ namespace SupportTool
         private void ShowMessageOfTheDay_Click(object sender, RoutedEventArgs e)
         {
             updateLatestInfo();
+        }
+
+        private void RunDreadnoughtDebugLauncher_Click(object sender, RoutedEventArgs e)
+        {
+            FileInfo launcherExecutable = new FileInfo(Path.Combine(config.DnInstallationDirectory, "DreadnoughtLauncher.exe"));
+
+            if (!launcherExecutable.Exists)
+            {
+                textBoxLogger.Log("Could not reliably find the Dreadnought installation directory (Hint: try Tools > Change Installation Directory)");
+                return;
+            }
+
+            Process process = DebugLauncher.CreateProcess(launcherExecutable.FullName);
+
+            try
+            {
+                process.Start();
+            }
+            catch (Win32Exception ex)
+            {
+                if (ex.NativeErrorCode == 1223) // operation cancelled by user
+                {
+                    textBoxLogger.Log("Starting the debug launcher requires administrative permissions.");
+                    return;
+                }
+            }
         }
     }
 }
