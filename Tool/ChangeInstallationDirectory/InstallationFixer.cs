@@ -12,7 +12,7 @@ namespace SupportTool.Tool.ChangeInstallationDirectory
 
             if (null == registryKey)
             {
-                Registry.LocalMachine.CreateSubKey(Installation.InstallationKey);
+                registryKey = Registry.LocalMachine.CreateSubKey(Installation.InstallationKey);
             }
 
             registryKey.SetValue(Installation.InstallationValueName, installDir.Replace(@"\DreadnoughtLauncher.exe", ""));
@@ -24,7 +24,7 @@ namespace SupportTool.Tool.ChangeInstallationDirectory
 
             if (null == registryKey)
             {
-                Registry.LocalMachine.CreateSubKey(Installation.UninstallKey);
+                registryKey = Registry.LocalMachine.CreateSubKey(Installation.UninstallKey);
             }
 
             string dir = installDir.Replace(@"\DreadnoughtLauncher.exe", "");
