@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace SupportTool.Ping
 {
-    class PingStorage
+    public class PingStorage
     {
-        private LimitedQueue<Tuple<ushort, long>> PingResults;
+        private LimitedQueue<CachedPingResult> PingResults;
         private string Host;
 
         /// <summary>
@@ -18,20 +18,34 @@ namespace SupportTool.Ping
         {
             timeInToKeep = 0 != timeInToKeep ? timeInToKeep : (ushort)1;
             pingFrequency = 0 != pingFrequency ? pingFrequency : (byte)1;
-            PingResults = new LimitedQueue<Tuple<ushort, long>>(timeInToKeep * (60 / pingFrequency));
+            PingResults = new LimitedQueue<CachedPingResult>(timeInToKeep * (60 / pingFrequency));
             Host = pingTarget;
         }
 
-        public PingResult ping()
+        public PingResult Ping()
         {
             PingResult result = Pinger.PingHosts(Host);
-            
-            PingResults.Enqueue(Tuple.Create((ushort) result.AveragePing, DateTime.Today.Ticks));
+
+            PingResults.Enqueue(new CachedPingResult
+            {
+                AveragePing = (ushort)result.AveragePing,
+                Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
+            });
 
             return result;
         }
 
         public int Count { get { return PingResults.Count; } }
+        public List<CachedPingResult> Pings
+        {
+            get { return new List<CachedPingResult>(PingResults); }
+        }
+    }
+
+    public struct CachedPingResult
+    {
+        public ushort AveragePing;
+        public long Timestamp;
     }
 
     class LimitedQueue<T> : Queue<T>

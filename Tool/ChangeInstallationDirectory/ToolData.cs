@@ -14,46 +14,14 @@ namespace SupportTool.Tool.ChangeInstallationDirectory
             Window = new ToolWindow(logger);
         }
 
-        public string MenuHeader
-        {
-            get
-            {
-                return "Change Installation Directory";
-            }
-        }
+        public string MenuHeader { get { return "Change Installation Directory"; }}
 
-        public ImageSource MenuIcon
-        {
-            get
-            {
-                return new BitmapImage(new Uri("/Assets/DreadGame.ico", UriKind.Relative));
-            }
-        }
+        public ImageSource MenuIcon { get { return new BitmapImage(new Uri("/Assets/DreadGame.ico", UriKind.Relative)); } }
 
-        public Action OnShow
-        {
-            get
-            {
-                return delegate {
-                    Window.GuessInputValue();
-                };
-            }
-        }
+        public Action OnShow { get { return delegate { Window.GuessInputValue(); }; } }
 
-        public bool RequiresElevatedPermissions
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool RequiresElevatedPermissions { get { return true; } }
 
-        public Window ToolWindow
-        {
-            get
-            {
-                return Window;
-            }
-        }
+        public Window ToolWindow { get { return Window; } }
     }
 }

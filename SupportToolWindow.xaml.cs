@@ -101,6 +101,7 @@ namespace SupportTool
             toolContainer = new ToolContainer(config, ToolsMenuItem);
             toolContainer.RegisterTool(new Tool.KeyboardSettings.ToolData(config, textBoxLogger));
             toolContainer.RegisterTool(new Tool.ChangeInstallationDirectory.ToolData(textBoxLogger));
+            toolContainer.RegisterTool(new Tool.PingExport.ToolData(pingStorage, config, textBoxLogger));
 
             updateLatestInfo();
             RunPings();
@@ -145,7 +146,7 @@ namespace SupportTool
 
         private void StartPing(object sender, DoWorkEventArgs e)
         { 
-            PingWorker.ReportProgress(1, pingStorage.ping());
+            PingWorker.ReportProgress(1, pingStorage.Ping());
         }
 
         private void ReportPing(object sender, ProgressChangedEventArgs e)

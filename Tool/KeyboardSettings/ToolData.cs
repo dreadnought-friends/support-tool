@@ -13,46 +13,14 @@ namespace SupportTool.Tool.KeyboardSettings
             Window = new ToolWindow(new ModulePreset(config), logger);
         }
 
-        public string MenuHeader
-        {
-            get
-            {
-                return "Keyboard Settings";
-            }
-        }
+        public string MenuHeader { get { return "Keyboard Settings"; } }
 
-        public ImageSource MenuIcon
-        {
-            get
-            {
-                return null;
-            }
-        }
+        public ImageSource MenuIcon { get { return null; } }
 
-        public Action OnShow
-        {
-            get
-            {
-                return delegate {
-                    Window.InitializeKeybindings();
-                };
-            }
-        }
+        public Action OnShow { get { return delegate { Window.InitializeKeybindings(); }; } }
 
-        public bool RequiresElevatedPermissions
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool RequiresElevatedPermissions { get { return false; } }
 
-        public Window ToolWindow
-        {
-            get
-            {
-                return Window;
-            }
-        }
+        public Window ToolWindow { get { return Window; } }
     }
 }

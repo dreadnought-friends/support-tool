@@ -2,7 +2,7 @@
 
 namespace SupportTool.Ping
 {
-    class PingResult
+    public class PingResult
     {
         public string Host { get; private set; }
         public bool Successful { get; private set; }

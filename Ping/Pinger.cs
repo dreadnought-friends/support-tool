@@ -57,7 +57,7 @@ namespace SupportTool.Ping
                     }
 
                     string error = item.Key.Equals(reply.Address.ToString())
-                        ? String.Format("Connecting to {0} failed. Error: {2}.", item.Key, reply.Status.ToString())
+                        ? String.Format("Connecting to {0} failed. Error: {1}.", item.Key, reply.Status.ToString())
                         : String.Format("Connecting to {0} (resolved to {1}) failed. Error: {2}.", item.Key, reply.Address, reply.Status.ToString());
 
                     errors.Add(error);
