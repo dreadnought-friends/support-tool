@@ -91,7 +91,7 @@ namespace SupportTool
             commandContainer.Add(new CustomerSupportReadme());
             commandContainer.Add(new DxDiag());
             commandContainer.Add(new MsInfo());
-            commandContainer.Add(new Connection());
+            commandContainer.Add(new Connection(pingStorage));
             commandContainer.Add(new DreadnoughtLogs());
             commandContainer.Add(new DreadnoughtSettings());
             commandContainer.Add(new DreadnoughtCrashDumps());

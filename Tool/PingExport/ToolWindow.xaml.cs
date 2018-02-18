@@ -22,12 +22,11 @@ namespace SupportTool.Tool.PingExport
 
         private void ExportPing_Click(object sender, RoutedEventArgs e)
         {
-            var pings = PingStorage.Pings;
             var stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine("Timestamp, AveragePing");
 
-            foreach (var result in pings)
+            foreach (var result in PingStorage.Pings)
             {
                 stringBuilder.AppendLine(string.Format("{0}, {1}", result.Timestamp, result.AveragePing));
             }

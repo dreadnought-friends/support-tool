@@ -4,11 +4,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace SupportTool.Command
 {
     class Connection : CommandInterface, CommandCheckBoxInterface
     {
+        private PingStorage PingStorage;
+
+        public Connection(PingStorage pingStorage)
+        {
+            PingStorage = pingStorage;
+        }
+
         public string ConfigPropertyPath
         {
             get
@@ -67,6 +75,8 @@ namespace SupportTool.Command
                 logger.Log("Pinging the servers failed, please check your connection.");
                 propagation.ShouldStop = true;
             }
+
+            AddStoredPingsAsCsv(config, fileAggregator);
         }
 
         private void CheckConnnection(List<string> ipAddresses, FileAggregator fileAggregator, LoggerInterface logger)
@@ -133,6 +143,21 @@ namespace SupportTool.Command
             ));
             
             return result.Errors;
+        }
+
+        private void AddStoredPingsAsCsv(Config config, FileAggregator fileAggregator)
+        {
+            FileInfo reportFile = fileAggregator.AddVirtualFile("ping-log.csv");
+
+            using (StreamWriter writer = reportFile.CreateText())
+            {
+                writer.WriteLine("Timestamp, AveragePing");
+
+                foreach (var result in PingStorage.Pings)
+                {
+                    writer.WriteLine(string.Format("{0}, {1}", result.Timestamp, result.AveragePing));
+                }
+            }
         }
     }
 }
