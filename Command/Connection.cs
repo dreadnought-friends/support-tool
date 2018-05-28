@@ -139,6 +139,9 @@ namespace SupportTool.Command
                     process.WaitForExit();
                     writer.WriteLine(process.StandardOutput.ReadToEnd());
                 }
+
+                writer.WriteLine("NOTE: 172.86.100.9 is known to have pinging turned off.");
+                writer.WriteLine("NOTE: Open ping-log.csv for ping info while the tool was running.");
             }
         }
 

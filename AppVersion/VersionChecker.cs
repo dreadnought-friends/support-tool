@@ -19,6 +19,7 @@ namespace SupportTool.AppVersion
 
             string version = "";
             string url = "";
+            string primaryIp = "";
             string motdTitle = "";
             string motdBody = "";
 
@@ -37,13 +38,14 @@ namespace SupportTool.AppVersion
 
                     version = tool.Latest;
                     url = tool.ReleasePage;
+                    primaryIp = tool.primaryIp;
                     motdTitle = tool.motd.title;
                     motdBody = tool.motd.body;
                     break;
                 }
             }
 
-            return new VersionInfo(config.Version.Equals(version), version, url, motdTitle, motdBody);
+            return new VersionInfo(config.Version.Equals(version), version, url, primaryIp, motdTitle, motdBody);
         }
     }
 
@@ -52,14 +54,16 @@ namespace SupportTool.AppVersion
         public bool IsUpToDate { get; private set; }
         public string Version { get; private set; }
         public string Url { get; private set; }
+        public string PrimaryIp { get; private set; }
         public string MotdTitle { get; private set; }
         public string MotdBody { get; private set; }
 
-        public VersionInfo(bool isUpToDate, string version, string url, string motdTitle, string motdBody)
+        public VersionInfo(bool isUpToDate, string version, string url, string primaryIp, string motdTitle, string motdBody)
         {
             IsUpToDate = isUpToDate;
             Version = version;
             Url = url;
+            PrimaryIp = primaryIp;
             MotdTitle = motdTitle;
             MotdBody = motdBody;
         }

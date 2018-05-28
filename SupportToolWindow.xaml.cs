@@ -32,17 +32,17 @@ namespace SupportTool
         private BackgroundWorker PingWorker = new BackgroundWorker();
         private TextBoxLogger textBoxLogger;
         private Runner runner;
-        private PingStorage pingStorage = new PingStorage("172.86.100.9", 240, (byte) (PingDelay / 1000));
+        private PingStorage pingStorage;
 
         public SupportToolWindow()
         {
             InitializeComponent();
-            
+
             Version versionInfo = Assembly.GetExecutingAssembly().GetName().Version;
             string version = String.Format("{0}.{1}.{2}", versionInfo.Major, versionInfo.Minor, versionInfo.Build);
 
             Title = String.Format("{0} - {1}", Title, version);
-            
+
             CommandWorker.WorkerReportsProgress = true;
             CommandWorker.WorkerSupportsCancellation = true;
             CommandWorker.DoWork += new DoWorkEventHandler(StartAggregateData);
@@ -84,6 +84,9 @@ namespace SupportTool
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
+            // defaults to one of the game servers, will get a proper IP from the version info later
+            pingStorage = new PingStorage("172.86.100.102", 240, (byte)(PingDelay / 1000));
+
             commandContainer = new CommandContainer(config, ConfigurationOptions);
 
             commandContainer.Add(new TempDirectoryPreparation());
@@ -118,6 +121,8 @@ namespace SupportTool
 
                 textBoxLogger.Log(info.MotdTitle);
                 textBoxLogger.Log(info.MotdBody);
+
+                pingStorage.Host = info.PrimaryIp;
 
                 if (!info.IsUpToDate)
                 {

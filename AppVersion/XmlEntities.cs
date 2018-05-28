@@ -41,6 +41,21 @@
 
         private string latestField;
 
+        private string primaryIpField;
+
+        /// <remarks/>
+        public string primaryIp
+        {
+            get
+            {
+                return this.primaryIpField;
+            }
+            set
+            {
+                this.primaryIpField = value;
+            }
+        }
+
         /// <remarks/>
         public ToolsToolMotd motd
         {
