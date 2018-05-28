@@ -83,7 +83,7 @@ namespace SupportTool.Command
         {
             FileInfo reportFile = fileAggregator.AddVirtualFile("connection-information.txt");
 
-            // trace route to the first IP in the list
+            // trace route to the first succesful ping in the list
             Process process = new Process
             {
                 StartInfo =
@@ -93,12 +93,14 @@ namespace SupportTool.Command
                     RedirectStandardError = true,
                     CreateNoWindow = true,
                     FileName = "cmd.exe",
-                    Arguments = "/C tracert -d " + ipAddresses[0]
+                    Arguments = "/C tracert -d -w 60 {0}"
                 }
             };
-            process.Start();
 
             logger.Log("Pinging known dreadnought servers, this might take a few seconds");
+
+            bool hasStartedTracert = false;
+
             using (StreamWriter writer = reportFile.CreateText())
             {
                 List<string> errors = new List<string>();
@@ -107,6 +109,15 @@ namespace SupportTool.Command
                 foreach (PingResult result in Pinger.PingHosts(ipAddresses))
                 {
                     errors.AddRange(WriteResultAndGetErrors(logger, writer, result));
+
+                    if (!result.Successful || hasStartedTracert)
+                    {
+                        continue;
+                    }
+
+                    process.StartInfo.Arguments = string.Format(process.StartInfo.Arguments, result.Host);
+                    process.Start();
+                    hasStartedTracert = true;
                 }
 
                 writer.WriteLine("");
@@ -123,8 +134,11 @@ namespace SupportTool.Command
                     writer.WriteLine(error);
                 }
                 
-                process.WaitForExit();
-                writer.WriteLine(process.StandardOutput.ReadToEnd());
+                if (hasStartedTracert)
+                {
+                    process.WaitForExit();
+                    writer.WriteLine(process.StandardOutput.ReadToEnd());
+                }
             }
         }
 
