@@ -21,6 +21,7 @@ namespace SupportTool
     /// </summary>
     public partial class SupportToolWindow : Window
     {
+        private static readonly string RemoteConfigFile = "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.xml";
         private static readonly short PingDelay = 1000;
 
         private Config config;
@@ -69,7 +70,7 @@ namespace SupportTool
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"DreadGame\Saved\Config\WindowsNoEditor"),
                 Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 "DN_Support.zip",
-                "https://raw.githubusercontent.com/dreadnought-friends/tool-versions/master/versions.xml",
+                RemoteConfigFile,
                 isElevated
             );
 
@@ -84,13 +85,50 @@ namespace SupportTool
             fileAggregator = new FileAggregator(Path.Combine(Path.GetTempPath() + "DN_Support"));
             runner = new Runner(config, fileAggregator, backgroundReportLogger);
 
-            // defaults to one of the game servers, will get a proper IP from the version info later
-            pingStorage = new PingStorage("172.86.100.102", 240, (byte)(PingDelay / 1000));
+            bool hostDeveloper = true;
+            bool changeInstallationDirectory = true;
+            string primaryIp = "172.86.100.102";
 
+            try
+            {
+                VersionInfo info = versionChecker.getLatestVersionInfo();
+                UpdateLatestInfo(info);
+                primaryIp = info.PrimaryIp;
+
+                if (info.Settings.ContainsKey("HostDeveloper"))
+                {
+                    hostDeveloper = info.Settings["HostDeveloper"].Equals(Setting.Enabled, StringComparison.CurrentCultureIgnoreCase);
+                }
+
+                if (info.Settings.ContainsKey("ChangeInstallationDirectory"))
+                {
+                    changeInstallationDirectory = info.Settings["ChangeInstallationDirectory"].Equals(Setting.Enabled, StringComparison.CurrentCultureIgnoreCase);
+                }
+            }
+            catch (Exception e)
+            {
+                textBoxLogger.Log(String.Format("Unable to check for a new version: {0}", e.Message));
+#if DEBUG
+                textBoxLogger.Log(e.StackTrace);
+#endif
+            }
+
+            // defaults to one of the game servers, will get a proper IP from the version info later
+            pingStorage = new PingStorage(primaryIp, 240, (byte)(PingDelay / 1000));
             commandContainer = new CommandContainer(config, ConfigurationOptions);
 
             commandContainer.Add(new TempDirectoryPreparation());
-            commandContainer.Add(new HostDeveloper());
+            if (hostDeveloper)
+            {
+                commandContainer.Add(new HostDeveloper());
+            }
+#if DEBUG
+            else
+            {
+                textBoxLogger.Log("Disabled the HostDeveloper command.");
+            }
+#endif
+
             commandContainer.Add(new CustomerSupportReadme());
             commandContainer.Add(new DxDiag());
             commandContainer.Add(new MsInfo());
@@ -103,36 +141,35 @@ namespace SupportTool
 
             toolContainer = new ToolContainer(config, ToolsMenuItem);
             toolContainer.RegisterTool(new Tool.KeyboardSettings.ToolData(config, textBoxLogger));
-            toolContainer.RegisterTool(new Tool.ChangeInstallationDirectory.ToolData(textBoxLogger));
+
+            if (changeInstallationDirectory)
+            {
+                toolContainer.RegisterTool(new Tool.ChangeInstallationDirectory.ToolData(textBoxLogger));
+            }
+#if DEBUG
+            else
+            {
+                textBoxLogger.Log("Disabled the ChangeInstallationDirectory tool.");
+            }
+#endif
+
             toolContainer.RegisterTool(new Tool.PingExport.ToolData(pingStorage, config, textBoxLogger));
 
-            updateLatestInfo();
             RunPings();
         }
 
-        private void updateLatestInfo()
+        private void UpdateLatestInfo(VersionInfo info)
         {
             DownloadNewVersionText.Text = "";
             textBoxLogger.Clear();
 
-            try
+            textBoxLogger.Log(info.MotdTitle);
+            textBoxLogger.Log(info.MotdBody);
+
+            if (!info.IsUpToDate)
             {
-                VersionInfo info = versionChecker.getLatestVersionInfo();
-
-                textBoxLogger.Log(info.MotdTitle);
-                textBoxLogger.Log(info.MotdBody);
-
-                pingStorage.Host = info.PrimaryIp;
-
-                if (!info.IsUpToDate)
-                {
-                    DownloadNewVersionLink.NavigateUri = new Uri(info.Url);
-                    DownloadNewVersionText.Text = String.Format("Version {0} is available!", info.Version);
-                }
-            }
-            catch (Exception e)
-            {
-                textBoxLogger.Log(String.Format("Unable to check for a new version: {0}", e.Message));
+                DownloadNewVersionLink.NavigateUri = new Uri(info.Url);
+                DownloadNewVersionText.Text = String.Format("Version {0} is available!", info.Version);
             }
         }
 
@@ -212,7 +249,7 @@ namespace SupportTool
         {
             if (null == config.DnInstallationDirectory)
             {
-                textBoxLogger.Log("Could not reliably find the Dreadnought installation directory (Hint: try Tools > Change Installation Directory)");
+                textBoxLogger.Log("Could not reliably find the Dreadnought installation directory");
                 return;
             }
 
@@ -227,37 +264,6 @@ namespace SupportTool
         private void OpenDocumentation_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/dreadnought-friends/support-tool/wiki"));
-        }
-
-        private void ShowMessageOfTheDay_Click(object sender, RoutedEventArgs e)
-        {
-            updateLatestInfo();
-        }
-
-        private void RunDreadnoughtDebugLauncher_Click(object sender, RoutedEventArgs e)
-        {
-            FileInfo launcherExecutable = new FileInfo(Path.Combine(config.DnInstallationDirectory, "DreadnoughtLauncher.exe"));
-
-            if (!launcherExecutable.Exists)
-            {
-                textBoxLogger.Log("Could not reliably find the Dreadnought installation directory (Hint: try Tools > Change Installation Directory)");
-                return;
-            }
-
-            Process process = DebugLauncher.CreateProcess(launcherExecutable.FullName);
-
-            try
-            {
-                process.Start();
-            }
-            catch (Win32Exception ex)
-            {
-                if (ex.NativeErrorCode == 1223) // operation cancelled by user
-                {
-                    textBoxLogger.Log("Starting the debug launcher requires administrative permissions.");
-                    return;
-                }
-            }
         }
     }
 }

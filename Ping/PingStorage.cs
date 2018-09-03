@@ -6,7 +6,7 @@ namespace SupportTool.Ping
     public class PingStorage
     {
         private LimitedQueue<CachedPingResult> PingResults;
-        public string Host;
+        private string Host;
 
         /// <summary>
         /// Creates a storage for ping results.

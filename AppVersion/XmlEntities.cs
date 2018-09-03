@@ -35,6 +35,8 @@
 
         private ToolsToolMotd motdField;
 
+        private ToolsToolSetting[] settingsField;
+
         private string nameField;
 
         private string releasePageField;
@@ -66,6 +68,20 @@
             set
             {
                 this.motdField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("setting", IsNullable = false)]
+        public ToolsToolSetting[] settings
+        {
+            get
+            {
+                return this.settingsField;
+            }
+            set
+            {
+                this.settingsField = value;
             }
         }
 
@@ -151,5 +167,43 @@
         }
     }
 
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class ToolsToolSetting
+    {
 
+        private string keyField;
+
+        private string valueField;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string key
+        {
+            get
+            {
+                return this.keyField;
+            }
+            set
+            {
+                this.keyField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string Value
+        {
+            get
+            {
+                return this.valueField;
+            }
+            set
+            {
+                this.valueField = value;
+            }
+        }
+    }
 }
